@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { MenuProps, MenuTheme } from 'antd'
 import { Menu, Switch } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { LogoLeft } from './LogoLeft'
+import { LogoLeft } from '~/components/LogoLeft'
 import { IIcon } from '~/components/IIcon'
 
 type MenuItem = Required<MenuProps>['items'][number]

@@ -10,14 +10,14 @@ export function HomeLayout(props: HomeLayoutProps) {
   const { MainSection, FeatSection, FooterSection } = props
 
   return (
-    <main text='3xl' font='bold' className='snap-mandatory snap-y overflow-scroll h-screen overflow-x-hidden'>
+    <main text='3xl' className='snap-mandatory snap-y overflow-scroll h-screen overflow-x-hidden'>
       <section className="snap-center h-screen">
         <MainSection />
       </section>
       <section className="snap-center full-screen">
         <FeatSection />
       </section>
-      <section className="snap-center full-screen">
+      <section className="snap-center h20 bg-footer">
         <FooterSection />
       </section>
     </main>

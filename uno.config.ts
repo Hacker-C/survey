@@ -26,7 +26,8 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      primary: '#1677ff'
+      primary: '#1677ff',
+      footer: '#2b3137'
     },
     breakpoints: {
       xs: '320px',
@@ -45,9 +46,16 @@ export default defineConfig({
     'full-screen': 'w-screen h-screen'
   },
   rules: [
-    ['content-h', {
-      'min-height': 'calc(100vh - 160px)'
-    }]
+    [
+      'content-h', {
+        'min-height': 'calc(100vh - 160px)'
+      }
+    ],
+    [
+      'main-section-h', {
+        height: 'calc(100vh - 80px)'
+      }
+    ]
   ],
   safelist: [
     'ml'
