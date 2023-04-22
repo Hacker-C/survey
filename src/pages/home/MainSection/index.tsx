@@ -25,8 +25,17 @@ export function MainSection() {
         className='main-section-h flex'
         flex='col justify-center items-center'
       >
-        <Title level={1} >在线调查问卷系统</Title>
-        <Paragraph>简单、快速、有趣——马上创建您的第一份调查问卷，以更深入了解您的调查对象。(*^_^*)</Paragraph>
+        <Title level={1}
+          style={{
+            fontFamily: 'SmileySans'
+          }}
+        >在线调查问卷系统</Title>
+        <Paragraph
+          style={{
+            fontFamily: 'SmileySans'
+          }}
+          text='xl'
+        >简单、快速、有趣——马上创建您的第一份调查问卷，以更深入了解您的调查对象。(*^_^*)</Paragraph>
         <div>
           <Link to={'/survey/list'}>
             <Button size={'large'} shape={'round'} type={'primary'}>开始使用</Button>

@@ -16,7 +16,8 @@ export default defineConfig({
     presetWebFonts({
       provider: 'none',
       fonts: {
-        times: ['Times']
+        times: ['Times'],
+        deyihei: ['Smiley Moon Regular']
       }
     }),
     presetAttributify()
