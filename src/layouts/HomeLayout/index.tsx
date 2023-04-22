@@ -17,7 +17,7 @@ export function HomeLayout(props: HomeLayoutProps) {
       <section className="snap-center full-screen">
         <FeatSection />
       </section>
-      <section className="snap-center h20 bg-footer">
+      <section className="snap-center h-screen">
         <FooterSection />
       </section>
     </main>
