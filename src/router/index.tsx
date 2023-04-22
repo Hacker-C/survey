@@ -1,7 +1,7 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
-import { HomeLayout, QuestionLayout } from '~/layouts'
+import { QuestionLayout } from '~/layouts'
 import {
-  Home,
+  HomePage,
   Login,
   NotFound,
   Profile,
@@ -17,11 +17,11 @@ import {
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomeLayout />,
+    element: <HomePage />,
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <HomePage />
       }
     ]
   },

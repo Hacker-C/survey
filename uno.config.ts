@@ -41,7 +41,8 @@ export default defineConfig({
     'pos-center': 'relative left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]',
     'pos-center-x': 'relative left-[50%] -translate-x-[50%]',
     'pos-center-y': 'relative top-[50%] -translate-y-[50%]',
-    'flex-center': 'flex justify-center items-center'
+    'flex-center': 'flex justify-center items-center',
+    'full-screen': 'w-screen h-screen'
   },
   rules: [
     ['content-h', {
