@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
-import type { MenuProps, MenuTheme } from 'antd'
-import { Menu, Switch } from 'antd'
+import React from 'react'
+import type { MenuProps } from 'antd'
+import { Menu } from 'antd'
+
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useSnapshot } from 'valtio'
 import { LogoLeft } from '~/components/LogoLeft'
 import { IIcon } from '~/components/IIcon'
+import { themeStore } from '~/store'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -39,11 +42,8 @@ export const SSider: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { pathname } = location
-  const [theme, setTheme] = useState<MenuTheme>('light')
 
-  const changeTheme = (value: boolean) => {
-    setTheme(value ? 'dark' : 'light')
-  }
+  const { theme } = useSnapshot(themeStore)
 
   const onClick: MenuProps['onClick'] = (e) => {
     navigate(e.key)
@@ -52,19 +52,13 @@ export const SSider: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
   return (
     <>
       <LogoLeft collapsed={collapsed}/>
-      <Switch
-        checked={theme === 'dark'}
-        onChange={changeTheme}
-        checkedChildren="Dark"
-        unCheckedChildren="Light"
-      />
       <Menu
         theme={theme}
         onClick={onClick}
         selectedKeys={[pathname]}
         mode="inline"
         items={items}
-        className='text-base'
+        className='text-base theme-duration'
       />
     </>
   )
