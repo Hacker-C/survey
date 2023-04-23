@@ -8,6 +8,7 @@
     "@typescript-eslint/no-use-before-define": "warn",
     "no-use-before-define": "off",
     "antfu/if-newline": "off",
+    "antfu/top-level-function": "off",
     "curly": "off"
   }
 }
