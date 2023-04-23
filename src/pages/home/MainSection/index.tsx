@@ -14,10 +14,10 @@ export function MainSection() {
         <div flex='1' />
         <div>
           <Link to={'/login'}>
-            <Button>登 录</Button>
+            <Button size='large'>登 录</Button>
           </Link>
           <Link to={'/register'}>
-            <Button m='x2' type='primary'>免费注册</Button>
+            <Button m='x2' type='primary' size='large'>免费注册</Button>
           </Link>
         </div>
       </div>
