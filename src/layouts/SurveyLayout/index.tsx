@@ -56,7 +56,7 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
           </div>
         </Content>
 
-        <Footer className='h20 px10 theme-duration dark:(bg-darkbg text-darktext)'>
+        <Footer className='h20 px10 theme-duration bg-lightbg dark:(bg-darkbg text-darktext)'>
           <SFooter />
         </Footer>
       </Layout>
