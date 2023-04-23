@@ -49,7 +49,8 @@ export default defineConfig({
     'pos-center-y': 'relative top-[50%] -translate-y-[50%]',
     'flex-center': 'flex justify-center items-center',
     'full-screen': 'w-screen h-screen',
-    'theme-duration': 'transition duration-300 ease-in-out'
+    'theme-duration': 'transition duration-300 ease-in-out',
+    'survey-item-bottom': 'flex items-center text-base theme-duration dark:(text-darktext hover:(text-primary))'
   },
   rules: [
     [
