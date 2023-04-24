@@ -65,6 +65,7 @@ export function Profile() {
               return (
                 <Descriptions.Item
                   label={<DarkThemeText>{getLabel(key as keyof IUser)}</DarkThemeText>}
+                  key={key}
                   className='theme-duration dark:(text-darktext)'
                 >
                   {
