@@ -9,6 +9,7 @@ export function SearchPanel() {
   return (
     <>
       <Search
+        allowClear
         placeholder="请输入问卷名搜索"
         size="middle"
         onSearch={onSearch}
