@@ -1,5 +1,5 @@
-import { SurveyItem } from './SurveyItem'
-import { SurveyHeader } from './SurveyHeader'
+import { SurveyItem } from '../components/SurveyItem'
+import { SurveyHeader } from '~/pages/survey/components/SurveyHeader'
 
 // mock data
 const surveys = [
@@ -32,7 +32,7 @@ const surveys = [
 export function SurveyList() {
   return (
     <div>
-    <SurveyHeader />
+      <SurveyHeader />
       {
         surveys.map(survey => (
           <SurveyItem survey={survey} key={survey.id}/>

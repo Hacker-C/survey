@@ -1,9 +1,9 @@
 import { Avatar, Button, Card, Descriptions, Typography } from 'antd'
-import type { PropsWithChildren } from 'react'
 import { useSnapshot } from 'valtio'
 import { IIcon } from '~/components/IIcon'
 import type { IUser } from '~/interfaces'
 import { themeStore } from '~/store'
+import { DarkThemeText } from '~/components/DarkThemeText'
 
 const { Meta } = Card
 const { Title } = Typography
@@ -82,8 +82,4 @@ export function Profile() {
       </Card>
     </>
   )
-}
-
-function DarkThemeText({ children }: PropsWithChildren<{}>) {
-  return <span className='theme-duration dark:(text-darktext)'>{children}</span>
 }
