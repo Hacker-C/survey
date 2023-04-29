@@ -1,10 +1,43 @@
-import { Button, Form, Input } from 'antd'
-import type { ILoginForm } from '~/interfaces'
+import { Button, Form, Input, message } from 'antd'
+import { useRequest } from 'ahooks'
+import { useNavigate } from 'react-router-dom'
+import type { IRegisterForm } from '~/interfaces'
 import { register } from '~/api'
 
 export function LogicForm() {
-  const onRegsiter = (values: ILoginForm) => {
-    register(values)
+  const [messageApi, contextHolder] = message.useMessage()
+  const nav = useNavigate()
+
+  const success = (msg: string) => {
+    messageApi.open({
+      type: 'success',
+      content: msg
+    })
+  }
+
+  const error = (msg: string) => {
+    messageApi.open({
+      type: 'error',
+      content: msg
+    })
+  }
+
+  const { loading, run } = useRequest(register, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.code === 200) {
+        success('注册成功，请前往登录')
+        setTimeout(() => {
+          nav('/login')
+        }, 1000)
+      } else {
+        error(res?.msg ?? '注册失败')
+      }
+    }
+  })
+
+  const onRegsiter = (values: IRegisterForm) => {
+    run(values)
   }
 
   const [form] = Form.useForm()
@@ -15,12 +48,13 @@ export function LogicForm() {
       className='w70'
       onFinish={onRegsiter}
     >
+      { contextHolder }
       <Form.Item
         label="用户名"
         name="username"
         rules={[{ required: true, message: '请输入用户名' }]}
       >
-        <Input placeholder='请输入用户名'/>
+        <Input placeholder='请输入用户名' allowClear />
       </Form.Item>
 
       <Form.Item
@@ -28,7 +62,7 @@ export function LogicForm() {
         name="password"
         rules={[{ required: true, message: '请输入密码' }]}
       >
-        <Input type='password' placeholder='请输入密码'/>
+        <Input.Password type='password' placeholder='请输入密码' allowClear />
       </Form.Item>
 
       <Form.Item
@@ -36,14 +70,15 @@ export function LogicForm() {
         name="rePassword"
         rules={[{ required: true, message: '请再次输入密码' }]}
       >
-        <Input type='password' placeholder='请再次输入密码'/>
+        <Input.Password type='password' placeholder='请再次输入密码' allowClear />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className='w-100%'>
+        <Button type="primary" htmlType="submit" className='w-100%' loading={loading}>
           注 册
         </Button>
       </Form.Item>
+      <Button onClick={() => success('111')}>触发</Button>
     </Form>
   )
 }
