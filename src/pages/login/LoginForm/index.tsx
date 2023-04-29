@@ -11,13 +11,13 @@ export function LoginForm(props: LoginFormProps) {
   const { title, isLogin = true, children } = props
   return (
     <div className='h-full flex flex-col justify-center items-center' font='deyihei'>
-      <div className='flex items-center'>
+      <Link to={'/'} className='flex items-center'>
         <Logo />
         <h1 text='2xl primary' font='bold' m='l2'>在线调查问卷系统</h1>
-      </div>
-      <h2 text='xl' m='y5'>{ title }</h2>
+      </Link>
+      <h2 text='xl' m='y5'>{title}</h2>
 
-      { children}
+      {children}
 
       {
         isLogin

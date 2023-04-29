@@ -1,8 +1,8 @@
-import { RouterProvider } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
+import React from 'react'
 import ErrorBoundary from './components/ErrorBoundary'
 import { FullPageErrorFallback } from './components/ErrorBoundary/FullPageErrorFallback'
-import { router } from '~/router'
+import { Router } from './Router'
 
 function App() {
   return (
@@ -14,7 +14,8 @@ function App() {
           }
         }}
       >
-        <RouterProvider router={router}></RouterProvider>
+        <Router />
+        {/* <RouterProvider router={router}></RouterProvider> */}
       </ConfigProvider >
     </ErrorBoundary>
   )
