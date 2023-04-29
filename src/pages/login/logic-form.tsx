@@ -1,0 +1,78 @@
+import { useRequest } from 'ahooks'
+import { Button, Checkbox, Form, Input, message } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { login } from '~/api'
+import type { ILoginForm } from '~/interfaces'
+import { userStore } from '~/store'
+
+export function LogicForm() {
+  const [messageApi, contextHolder] = message.useMessage()
+  const nav = useNavigate()
+
+  const success = (msg: string) => {
+    messageApi.open({
+      type: 'success',
+      content: msg
+    }).then(() => {
+      nav('/profile')
+    })
+  }
+
+  const error = (msg: string) => {
+    messageApi.open({
+      type: 'error',
+      content: msg
+    })
+  }
+
+  const { run, loading } = useRequest(login, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.code === 200) {
+        userStore.update(res.data!)
+        success('登录成功')
+      } else {
+        error(res?.msg ?? '登录失败')
+      }
+    }
+  })
+
+  function onLogin(values: ILoginForm) {
+    run(values)
+  }
+
+  return (
+    <Form
+      layout='vertical'
+      className='w70'
+      onFinish={onLogin}
+    >
+      {contextHolder}
+      <Form.Item
+        label="用户名"
+        name="username"
+        rules={[{ required: true, message: '请输入用户名' }]}
+      >
+        <Input placeholder='请输入用户名'/>
+      </Form.Item>
+
+      <Form.Item
+        label="密码"
+        name="password"
+        rules={[{ required: true, message: '请输入密码' }]}
+      >
+        <Input type='password' placeholder='请输入密码'/>
+      </Form.Item>
+
+      <Form.Item name="remember" valuePropName="checked">
+        <Checkbox>记住我</Checkbox>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className='w-100%' loading={loading}>
+          登 录
+        </Button>
+      </Form.Item>
+    </Form>
+  )
+}

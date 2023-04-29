@@ -86,14 +86,14 @@ export const Router = () => {
             {/* 用户权限路由 */}
             <Route path="/profile" element={<Navigate to={'/survey/profile'}/>} />
             <Route path="/survey" element={<SurveyPage />}>
-              <Route path="profile" element={
-                <PrivateRoute>
-                  <Profile/>
-                </PrivateRoute>
-              } />
+              <Route path="profile" element={<Profile/>} />
               <Route path="list" element={<SurveyList/>} />
               <Route path="star" element={<SurveyStar/>} />
-              <Route path="trash" element={<SurveyTrash/>} />
+              <Route path="trash" element={
+                <PrivateRoute>
+                  <SurveyTrash/>
+                </PrivateRoute>
+              } />
             </Route>
           </Routes>
         </BrowserRouter>

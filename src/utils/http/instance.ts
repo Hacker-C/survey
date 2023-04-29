@@ -20,11 +20,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     // 设置 token
-    const { token } = userStore
-    if (token) {
-      config.headers.Token = token
+    if (userStore.token) {
+      config.headers.Authorization = userStore.token
     } else {
-      delete config.headers.Token
+      delete config.headers.Authorization
     }
     return config
   },

@@ -1,9 +1,10 @@
 import type { MenuProps } from 'antd'
 import { Avatar, Dropdown } from 'antd'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
-import { themeStore } from '~/store'
+import { themeStore, userStore } from '~/store'
 
 interface SHeaderProps {
   onToggle: () => void
@@ -38,6 +39,7 @@ function HeaderLeft({ onToggle, collapsed }: SHeaderProps) {
 
 function HeaderRight() {
   const { toggle, theme } = themeStore
+  const nav = useNavigate()
   const toggleDark = () => {
     toggle()
   }
@@ -56,8 +58,14 @@ function HeaderRight() {
       key: '2',
       label: (
         <a onClick={() => {
+          logout().then((res) => {
+            if (res.code === 200) {
+              userStore.clear()
+              nav('/login')
+            }
+          })
         }}>
-          登出
+          登 出
         </a>
       ),
       icon: <IIcon icon='mdi:shutdown' />
