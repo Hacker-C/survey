@@ -95,6 +95,14 @@ export const Router = () => {
                 </PrivateRoute>
               } />
             </Route>
+
+            {/* 管理员权限路由 */}
+            <Route path="/admin" element={<Navigate to={'/admin/profile'}/>} />
+            <Route path="/admin" element={<SurveyPage />}>
+              <Route path="profile" element={<Profile/>} />
+              <Route path="survey" element={<div>survey list</div>} />
+              <Route path="user" element={<div>user list</div>} />
+            </Route>
           </Routes>
         </BrowserRouter>
     </>
