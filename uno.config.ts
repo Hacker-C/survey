@@ -28,6 +28,7 @@ export default defineConfig({
   theme: {
     colors: {
       primary: '#1677ff', // 主题色
+      secondary: '#1E88E5', // 次要色
       footer: '#2b3137', // 主页底部色
       dark: '#001529', // 暗黑模式色
       darktext: 'rgba(255, 255, 255, 0.8)', // 暗黑模式文字色

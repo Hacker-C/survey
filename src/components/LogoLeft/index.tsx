@@ -5,7 +5,7 @@ export function LogoLeft({ collapsed }: { collapsed?: boolean }) {
   return (
     <Link to='/'>
       <div className='flex items-center h20 justify-center cursor-pointer'>
-        <IIcon icon='ri:survey-fill' width='30' className='text-primary' />
+        <Logo />
         {!collapsed && <span text='xl primary' font='bold' ml='3'
           style={{
             fontFamily: 'SmileySans'
@@ -14,5 +14,11 @@ export function LogoLeft({ collapsed }: { collapsed?: boolean }) {
       </div>
     </Link>
 
+  )
+}
+
+export function Logo() {
+  return (
+    <IIcon icon='ph:codesandbox-logo-bold' width='30' className='text-primary' />
   )
 }
