@@ -12,6 +12,8 @@ export function LogicForm() {
     messageApi.open({
       type: 'success',
       content: msg
+    }).then(() => {
+      nav('/login')
     })
   }
 
@@ -27,9 +29,6 @@ export function LogicForm() {
     onSuccess: (res) => {
       if (res.code === 200) {
         success('注册成功，请前往登录')
-        setTimeout(() => {
-          nav('/login')
-        }, 1000)
       } else {
         error(res?.msg ?? '注册失败')
       }
