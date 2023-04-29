@@ -15,6 +15,7 @@ export const userStore = proxy<{
       },
       clear: () => {
         userStore.user = null
+        userStore.token = null
       }
     })
 
