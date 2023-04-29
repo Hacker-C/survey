@@ -1,9 +1,7 @@
 import axios from 'axios'
-import { useSnapshot } from 'valtio'
 import { userStore } from '~/store'
 
-const BASE_URL = 'https://dummyjson.com'
-// const BASE_URL = 'http://localhost:8082'
+const BASE_URL = 'http://localhost:8082'
 const TIMEOUT = 5000
 
 const instance = axios.create({
@@ -22,7 +20,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     // 设置 token
-    const { token } = useSnapshot(userStore)
+    const { token } = userStore
     if (token) {
       config.headers.Token = token
     } else {

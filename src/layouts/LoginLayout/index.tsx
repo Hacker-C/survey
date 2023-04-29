@@ -9,7 +9,7 @@ interface LoginLayoutProps {
 export function LoginLayout(props: LoginLayoutProps) {
   const { isLeft = false, children, sider } = props
   return (
-    <div className="h-screen w-screen flex">
+    <div className="h-screen w-screen flex lt-md:flex-col">
       {
         isLeft
           ? (<><Sider>{ sider }</Sider><Content>{ children }</Content></>)
