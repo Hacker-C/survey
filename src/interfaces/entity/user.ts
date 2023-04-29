@@ -1,4 +1,4 @@
-// loginUser
+/** loginUser */
 export interface IUserLogin {
   id: number
   token: string
@@ -7,11 +7,17 @@ export interface IUserLogin {
   avatar: string
 }
 
-// getUser
+/** getUser */
 export interface IUser {
   avatar: string
   email: string
   gender: number
   nickname: string
   phone: string
+}
+
+/** listUser */
+export type ListUser = IUser & {
+  id: number
+  status: number
 }

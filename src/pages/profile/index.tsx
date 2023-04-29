@@ -1,24 +1,20 @@
-import { Avatar, Button, Card, Descriptions, Typography } from 'antd'
+import { Avatar, Button, Card, Descriptions, Spin, Typography } from 'antd'
 import { useSnapshot } from 'valtio'
+import { useRequest } from 'ahooks'
 import { IIcon } from '~/components/IIcon'
 import type { IUser } from '~/interfaces'
 import { themeStore } from '~/store'
 import { DarkThemeText } from '~/components/DarkThemeText'
+import { getUserProfile } from '~/api'
 
 const { Meta } = Card
 const { Title } = Typography
 
-// mock data
-const user: IUser = {
-  gender: 1,
-  nickname: 'Murphy Chen',
-  avatar: '',
-  email: 'mphy@qq.com',
-  phone: '155434543323'
-}
-
 export function Profile() {
   const { theme } = useSnapshot(themeStore)
+
+  const { data: res, loading } = useRequest(getUserProfile)
+  const user = res?.data
 
   const getLabel = (key: keyof IUser) => {
     return new Map([
@@ -46,39 +42,45 @@ export function Profile() {
         }
         className='theme-duration dark:(bg-gray-800 text-darktext) min-h-screen-xm'
       >
-        <Meta
-          title={<div className='theme-duration dark:(text-darktext)'>{user.nickname}</div>}
-          description={<div className='theme-duration dark:(text-darktext)'>{user.email}</div>}
-          avatar={
-            <Avatar
-              src={user.avatar}
-              icon={<IIcon icon='ph:user-bold' width={'30'} />}
-              size={'large'}
-              style={{ width: 55, height: 55 }}
-              className='flex-center'
-            />
-          }
-        />
-        <Descriptions layout="vertical" bordered className='mt5 theme-duration dark:bg-gray-800' >
-          {
-            Object.keys(user).map((key) => {
-              return (
-                <Descriptions.Item
-                  label={<DarkThemeText>{getLabel(key as keyof IUser)}</DarkThemeText>}
-                  key={key}
-                  className='theme-duration dark:(text-darktext)'
-                >
-                  {
-                    key === 'gender'
-                      ? (user[key as keyof IUser] === 1 ? '男' : '女')
-                      : user[key as keyof IUser]
-                  }
-                </Descriptions.Item>
-              )
-            })
-          }
+        {
+          loading
+            ? <div className='flex-center h72'><Spin /></div>
+            : <>
+              <Meta
+                title={<div className='theme-duration dark:(text-darktext)'>{user?.nickname}</div>}
+                description={<div className='theme-duration dark:(text-darktext)'>{user?.email}</div>}
+                avatar={
+                  <Avatar
+                    src={user?.avatar}
+                    icon={<IIcon icon='ph:user-bold' width={'30'} />}
+                    size={'large'}
+                    style={{ width: 55, height: 55 }}
+                    className='flex-center'
+                  />
+                }
+              />
+              <Descriptions layout="vertical" bordered className='mt5 theme-duration dark:bg-gray-800' >
+                {
+                  Object.keys(user ?? {}).map((key) => {
+                    return (
+                      <Descriptions.Item
+                        label={<DarkThemeText>{getLabel(key as keyof IUser)}</DarkThemeText>}
+                        key={key}
+                        className='theme-duration dark:(text-darktext)'
+                      >
+                        {
+                          key === 'gender'
+                            ? (user![key as keyof IUser] === 1 ? '男' : '女')
+                            : user![key as keyof IUser] ?? '暂未设置'
+                        }
+                      </Descriptions.Item>
+                    )
+                  })
+                }
+              </Descriptions>
+            </>
+        }
 
-        </Descriptions>
       </Card>
     </>
   )
