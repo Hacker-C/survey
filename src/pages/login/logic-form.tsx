@@ -1,36 +1,21 @@
 import { useRequest } from 'ahooks'
-import { Button, Checkbox, Form, Input, message } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { login } from '~/api'
 import type { ILoginForm } from '~/interfaces'
 import { userStore } from '~/store'
+import { useMessage } from '~/hooks'
 
 export function LogicForm() {
-  const [messageApi, contextHolder] = message.useMessage()
+  const { contextHolder, success, error } = useMessage()
   const nav = useNavigate()
-
-  const success = (msg: string) => {
-    messageApi.open({
-      type: 'success',
-      content: msg
-    }).then(() => {
-      nav('/profile')
-    })
-  }
-
-  const error = (msg: string) => {
-    messageApi.open({
-      type: 'error',
-      content: msg
-    })
-  }
 
   const { run, loading } = useRequest(login, {
     manual: true,
     onSuccess: (res) => {
       if (res.code === 200) {
         userStore.update(res.data!)
-        success('登录成功')
+        success('登录成功', () => nav('/profile'))
       } else {
         error(res?.msg ?? '登录失败')
       }

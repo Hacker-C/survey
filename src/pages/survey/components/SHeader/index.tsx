@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
 import { themeStore, userStore } from '~/store'
+import { useMessage } from '~/hooks'
 
 interface SHeaderProps {
   onToggle: () => void
@@ -40,8 +41,22 @@ function HeaderLeft({ onToggle, collapsed }: SHeaderProps) {
 function HeaderRight() {
   const { toggle, theme } = themeStore
   const nav = useNavigate()
+
+  const { success, contextHolder } = useMessage()
+
   const toggleDark = () => {
     toggle()
+  }
+
+  const onLogout = () => {
+    logout().then((res) => {
+      if (res.code === 200) {
+        userStore.clear()
+        success('登出成功', () => {
+          nav('/login')
+        })
+      }
+    })
   }
 
   const items: MenuProps['items'] = [
@@ -57,14 +72,7 @@ function HeaderRight() {
     {
       key: '2',
       label: (
-        <a onClick={() => {
-          logout().then((res) => {
-            if (res.code === 200) {
-              userStore.clear()
-              nav('/login')
-            }
-          })
-        }}>
+        <a onClick={onLogout}>
           登 出
         </a>
       ),
@@ -74,6 +82,7 @@ function HeaderRight() {
 
   return (
     <>
+      { contextHolder }
       <IIcon
         icon={theme === 'light' ? 'ph:moon' : 'ph:sun'}
         onClick={toggleDark}
