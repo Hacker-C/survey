@@ -30,6 +30,7 @@ subscribe(userStore, () => {
     localStorage.setItem('role', `${userStore.user.role}`)
   } else {
     userStore.token = null
+    userStore.role = null
     localStorage.removeItem('token')
     localStorage.removeItem('role')
   }

@@ -15,7 +15,11 @@ export function LogicForm() {
     onSuccess: (res) => {
       if (res.code === 200) {
         userStore.update(res.data!)
-        success('登录成功', () => nav('/profile'))
+        success('登录成功', () => {
+          const role = res.data?.role === 0 ? 'user' : 'admin'
+          if (role === 'admin') nav('/admin')
+          else nav('/survey')
+        })
       } else {
         error(res?.msg ?? '登录失败')
       }

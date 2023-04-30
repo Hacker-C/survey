@@ -19,10 +19,13 @@ const DomTitle: React.FC<RouterConfig> = (props) => {
 
 // TODO 类型问题
 const PrivateRoute = ({ children, requireRoles }: PropsWithChildren<{ requireRoles: string[] }>): any => {
-  if (requireRoles.includes(`${userStore.role}`)) {
+  if (userStore.role === null || ![0, 1].includes(userStore.role)) {
+    return <Navigate to="/login" />
+  }
+  const role = userStore.role === 0 ? 'user' : 'admin'
+  if (requireRoles.includes(role)) {
     return children
   }
-
   return <Navigate to="/login" />
 }
 
@@ -30,6 +33,19 @@ function RenderRoute(routes: RouterConfig[]) {
   return routes.map((route) => {
     const { path, children, meta } = route
     const element = <DomTitle {...route} />
+    if (path === '/login') {
+      // 自动登录
+      if (userStore.role === 0) {
+        // 普通用户
+        return <Route path={path} element={<Navigate to="/survey" />} key={path} />
+      }
+      if (userStore.role === 1) {
+        // 管理员
+        return <Route path={path} element={<Navigate to="/admin" />} key={path} />
+      }
+      // 未登录，去登录
+      return <Route path={path} element={element} key={path} />
+    }
     if (!meta?.isAuth) {
       return <Route path={path} element={element} key={path} />
     }
