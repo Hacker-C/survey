@@ -26,6 +26,7 @@ export function SurveyItem({ survey }: SurveyItemProps) {
             <span>截止：{expireTime}</span>
           </div>
         }
+        hoverable
         className='mt5 theme-duration dark:(bg-dark text-darktext)'
       >
         <div className='flex items-center'>

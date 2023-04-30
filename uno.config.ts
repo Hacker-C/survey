@@ -66,6 +66,11 @@ export default defineConfig({
       'main-section-h', {
         height: 'calc(100vh - 80px)'
       }
+    ],
+    [
+      'hover-box', {
+        'box-shadow': 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
+      }
     ]
   ],
   safelist: [
