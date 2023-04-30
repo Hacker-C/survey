@@ -5,7 +5,7 @@ import type { MenuItem } from '~/pages/survey/components'
 
 const menus: MenuItem[] = [
   {
-    key: '/question/edit',
+    key: '/survey/create',
     icon: <IIcon icon="material-symbols:add"/>,
     label: '新建问卷'
   },

@@ -14,6 +14,7 @@ const Login = LazyLoadComponent('Login')
 const Register = LazyLoadComponent('Register')
 const NotFound = LazyLoadComponent('NotFound')
 const Profile = LazyLoadComponent('Profile')
+const SurveyCreate = LazyLoadComponent('SurveyCreate')
 const SurveyList = LazyLoadComponent('SurveyList')
 const SurveyStar = LazyLoadComponent('SurveyStar')
 const SurveyTrash = LazyLoadComponent('SurveyTrash')
@@ -63,6 +64,15 @@ export const routes: RouterConfig[] = [
       redirect: '/survey/profile'
     },
     children: [
+      {
+        path: 'create',
+        element: <SurveyCreate />,
+        meta: {
+          isAuth: true,
+          requireRoles: ['user'],
+          title: '新建问卷'
+        }
+      },
       {
         path: 'profile',
         element: <Profile />,
