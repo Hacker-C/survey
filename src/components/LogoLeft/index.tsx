@@ -6,11 +6,7 @@ export function LogoLeft({ collapsed }: { collapsed?: boolean }) {
     <Link to='/'>
       <div className='flex items-center h20 justify-center cursor-pointer'>
         <Logo />
-        {!collapsed && <span text='xl primary' font='bold' ml='3'
-          style={{
-            fontFamily: 'SmileySans'
-          }}
-        >在线问卷系统</span>}
+        {!collapsed && <span text='xl primary' font='bold deyihei' ml='3'>在线问卷系统</span>}
       </div>
     </Link>
 
