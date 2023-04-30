@@ -1,10 +1,14 @@
 import { Button, Typography } from 'antd'
 import { Link } from 'react-router-dom'
+import { useSnapshot } from 'valtio'
 import { LogoLeft } from '~/components/LogoLeft'
+import { userStore } from '~/store'
 
 const { Title, Paragraph } = Typography
 
 export function MainSection() {
+  const { role } = useSnapshot(userStore)
+
   return (
     <>
       <div className='flex items-center'>
@@ -30,7 +34,7 @@ export function MainSection() {
           简单、快速、有趣——马上创建您的第一份调查问卷，以更深入了解您的调查对象。(*^_^*)
         </Paragraph>
         <div>
-          <Link to={'/survey/list'}>
+          <Link to={ role === 0 ? '/survey' : '/admin'}>
             <Button size={'large'} shape={'round'} type={'primary'}>开始使用</Button>
           </Link>
         </div>
