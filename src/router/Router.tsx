@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react'
 import { Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import { useSnapshot } from 'valtio'
 import type { RouterConfig } from './routes'
 import { routes } from '.'
 import { userStore } from '~/store'
@@ -20,11 +21,12 @@ const DomTitle: React.FC<RouterConfig> = (props) => {
 
 // TODO 类型问题
 const PrivateRoute = ({ children, requireRoles }: PropsWithChildren<{ requireRoles: string[] }>): any => {
-  if (userStore.role === null || ![0, 1].includes(userStore.role)) {
+  const { role } = useSnapshot(userStore)
+  if (role === null || ![0, 1].includes(role)) {
     return <Navigate to="/login" />
   }
-  const role = userStore.role === 0 ? 'user' : 'admin'
-  if (requireRoles.includes(role)) {
+  const roleName = role === 0 ? 'user' : 'admin'
+  if (requireRoles.includes(roleName)) {
     return children
   }
   return <Navigate to="/login" />
@@ -35,17 +37,21 @@ function RenderRoute(routes: RouterConfig[]) {
     const { path, children, meta } = route
     const element = <DomTitle {...route} />
     if (path === '/login') {
+      // const roleStr = localStorage.getItem('role')
+      const { role } = useSnapshot(userStore)
+      if (role === null) return <Route path={'/login'} element={element} key={'/login'} />
+      // const role = +roleStr
       // 自动登录
-      if (userStore.role === 0) {
+      if (role === 0) {
         // 普通用户
         return <Route path={path} element={<Navigate to="/survey" />} key={path} />
       }
-      if (userStore.role === 1) {
+      if (role === 1) {
         // 管理员
         return <Route path={path} element={<Navigate to="/admin" />} key={path} />
       }
       // 未登录，去登录
-      return <Route path={path} element={element} key={path} />
+      return <Route path={'/login'} element={element} key={'/login'} />
     }
     if (!meta?.isAuth) {
       return <Route path={path} element={element} key={path} />

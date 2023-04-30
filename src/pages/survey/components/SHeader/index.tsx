@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd'
 import { Avatar, Dropdown } from 'antd'
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
 import { themeStore, userStore } from '~/store'
@@ -40,9 +40,8 @@ function HeaderLeft({ onToggle, collapsed }: SHeaderProps) {
 
 function HeaderRight() {
   const { toggle, theme } = themeStore
-  const nav = useNavigate()
 
-  const { success, contextHolder } = useMessage()
+  const { success, error, contextHolder } = useMessage()
 
   const toggleDark = () => {
     toggle()
@@ -51,10 +50,11 @@ function HeaderRight() {
   const onLogout = () => {
     logout().then((res) => {
       if (res.code === 200) {
-        userStore.clear()
         success('登出成功', () => {
-          nav('/login')
+          userStore.clear()
         })
+      } else {
+        error(res.msg ?? '登出失败')
       }
     })
   }

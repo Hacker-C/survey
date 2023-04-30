@@ -1,6 +1,5 @@
 import { useRequest } from 'ahooks'
 import { Button, Checkbox, Form, Input } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import { login } from '~/api'
 import type { ILoginForm } from '~/interfaces'
 import { userStore } from '~/store'
@@ -8,17 +7,13 @@ import { useMessage } from '~/hooks'
 
 export function LogicForm() {
   const { contextHolder, success, error } = useMessage()
-  const nav = useNavigate()
 
   const { run, loading } = useRequest(login, {
     manual: true,
     onSuccess: (res) => {
       if (res.code === 200) {
-        userStore.update(res.data!)
         success('登录成功', () => {
-          const role = res.data?.role === 0 ? 'user' : 'admin'
-          if (role === 'admin') nav('/admin')
-          else nav('/survey')
+          userStore.update(res.data!)
         })
       } else {
         error(res?.msg ?? '登录失败')
