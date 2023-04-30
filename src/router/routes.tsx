@@ -1,21 +1,22 @@
 import React from 'react'
-import {
-  AdminPage,
-  Login,
-  NotFound,
-  Profile,
-  Register,
-  SurveyList,
-  SurveyPage,
-  SurveyStar,
-  SurveyTrash
-} from '~/pages'
 
-// export function HomePage
+// TODO export function Component
+function LazyLoadComponent(compName: any) {
+  return React.lazy(
+    () => import('~/pages').then(module => ({ default: module[compName] }))
+  )
+}
 
-const HomePage = React.lazy(
-  () => import('~/pages/home').then(module => ({ default: module.HomePage }))
-)
+const HomePage = LazyLoadComponent('HomePage')
+const SurveyPage = LazyLoadComponent('SurveyPage')
+const AdminPage = LazyLoadComponent('AdminPage')
+const Login = LazyLoadComponent('Login')
+const Register = LazyLoadComponent('Register')
+const NotFound = LazyLoadComponent('NotFound')
+const Profile = LazyLoadComponent('Profile')
+const SurveyList = LazyLoadComponent('SurveyList')
+const SurveyStar = LazyLoadComponent('SurveyStar')
+const SurveyTrash = LazyLoadComponent('SurveyTrash')
 
 export interface RouterConfig {
   path: string

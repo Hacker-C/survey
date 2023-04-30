@@ -52,7 +52,9 @@ export default defineConfig({
     'flex-center': 'flex justify-center items-center',
     'full-screen': 'w-screen h-screen',
     'theme-duration': 'transition duration-300 ease-in-out',
-    'survey-item-bottom': 'flex items-center text-base theme-duration dark:(text-darktext hover:(text-primary))'
+    'survey-item-bottom': 'flex items-center text-base theme-duration dark:(text-darktext hover:(text-primary))',
+    'h-sreen': 'h-[100vh]',
+    'wh-sreen': 'w-[100vw] h-[100vh]'
   },
   rules: [
     [
