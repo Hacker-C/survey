@@ -48,7 +48,7 @@ export function Profile() {
             : <>
               <Meta
                 title={<div className='theme-duration dark:(text-darktext)'>{user?.nickname}</div>}
-                description={<div className='theme-duration dark:(text-darktext)'>{user?.email}</div>}
+                description={<div className='theme-duration dark:(text-darktext)'>{user?.email ?? '暂未设置邮箱'}</div>}
                 avatar={
                   <Avatar
                     src={user?.avatar}
