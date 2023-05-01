@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
-import { themeStore, userStore } from '~/store'
+import { menuStore, themeStore, userStore } from '~/store'
 import { useMessage } from '~/hooks'
 
 interface SHeaderProps {
@@ -52,6 +52,7 @@ function HeaderRight() {
       if (res.code === 200) {
         success('登出成功', () => {
           userStore.clear()
+          menuStore.clearMenu()
         })
       } else {
         error(res.msg ?? '登出失败')

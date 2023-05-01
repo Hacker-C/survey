@@ -3,8 +3,9 @@ import { Layout } from 'antd'
 import type { PropsWithChildren } from 'react'
 import React, { useState } from 'react'
 import { useSnapshot } from 'valtio'
-import { themeStore } from '~/store'
-import type { MenuItem, SSiderProps } from '~/pages/survey/components'
+import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
+import { menuStore, themeStore } from '~/store'
+import type { SSiderProps } from '~/pages/survey/components'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -12,11 +13,11 @@ interface SurveyLayoutProps {
   SHeader: React.FC<{ onToggle: () => void; collapsed: boolean }>
   SSider: React.FC<SSiderProps>
   SFooter: React.FC
-  menus: MenuItem[]
 }
 
 export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
-  const { SHeader, SSider, SFooter, menus } = props
+  const { SHeader, SSider, SFooter } = props
+  const { menus } = useSnapshot(menuStore)
   const [collapsed, setCollapsed] = useState(false)
   const onToggle = () => {
     setCollapsed(!collapsed)
@@ -42,7 +43,7 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
         }}
         className='theme-duration'
       >
-        <SSider collapsed={collapsed} menus={menus}/>
+        <SSider collapsed={collapsed} menus={menus as MenuItemType[]}/>
       </Sider>
       <Layout style={{ marginLeft: !collapsed ? 200 : 80 }}>
         <Header
