@@ -25,7 +25,7 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
   const { theme } = useSnapshot(themeStore)
 
   return (
-    <Layout className='min-h-screen theme-duration dark:bg-darkbg'>
+    <Layout className='theme-duration dark:bg-darkbg'>
       <Sider
         theme={theme}
         collapsible
@@ -52,8 +52,8 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
           <SHeader onToggle={onToggle} collapsed={collapsed}/>
         </Header>
 
-        <Content className='bg-lightbg theme-duration dark:bg-darkbg'>
-          <div className='m5 p5 bg-white theme-duration dark:(bg-dark text-darktext) rounded-xl'>
+        <Content className='relative bg-lightbg theme-duration dark:bg-darkbg'>
+          <div className='m5 p5 bg-white theme-duration dark:(bg-dark text-darktext) rounded-xl min-content-h'>
           <Outlet />
           </div>
         </Content>

@@ -13,7 +13,9 @@ function App() {
           }
         }}
       >
-        <Router />
+        <div className='min-app-h'>
+          <Router />
+        </div>
       </ConfigProvider >
     </ErrorBoundary>
   )

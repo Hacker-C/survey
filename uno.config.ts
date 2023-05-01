@@ -63,8 +63,18 @@ export default defineConfig({
       }
     ],
     [
-      'main-section-h', {
-        height: 'calc(100vh - 80px)'
+      'min-section-h', {
+        'min-height': 'calc(100vh - 80px)'
+      }
+    ],
+    [
+      'min-content-h', {
+        'min-height': 'calc(100vh - 120px)'
+      }
+    ],
+    [
+      'min-app-h', {
+        'min-height': '100vh'
       }
     ],
     [
