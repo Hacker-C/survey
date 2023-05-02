@@ -12,12 +12,12 @@ const adminMenu: MenuItem[] = [
   },
   {
     key: '/admin/survey',
-    icon: <IIcon icon='material-symbols:list-alt-outline-rounded'/>,
-    label: '问卷列表'
+    icon: <IIcon icon='ri:survey-line'/>,
+    label: '问卷管理'
   },
   {
     key: '/admin/user',
-    icon: <IIcon icon='material-symbols:list-alt-outline-rounded'/>,
+    icon: <IIcon icon='ph:users-four'/>,
     label: '用户管理'
   }
 ]
