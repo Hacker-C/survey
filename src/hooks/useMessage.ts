@@ -2,12 +2,13 @@ import { message } from 'antd'
 
 export const useMessage = () => {
   const [messageApi, contextHolder] = message.useMessage()
+  const duration = 1.5
 
   const success = (msg: string, callback?: () => void) => {
     messageApi.open({
       type: 'success',
       content: msg,
-      duration: 1.5
+      duration
     }).then(callback)
   }
 
@@ -15,9 +16,17 @@ export const useMessage = () => {
     messageApi.open({
       type: 'error',
       content: msg,
-      duration: 1.5
+      duration
     }).then(callback)
   }
 
-  return { success, error, contextHolder }
+  const warning = (msg: string, callback?: () => void) => {
+    messageApi.open({
+      type: 'warning',
+      content: msg,
+      duration
+    }).then(callback)
+  }
+
+  return { success, error, warning, contextHolder }
 }

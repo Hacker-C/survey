@@ -7,7 +7,7 @@ import { LIST_SEARCH_KEY } from '~/constant'
 
 const { Search } = Input
 
-export function SearchPanel() {
+export const SearchPanel: React.FC<{ tip?: string }> = ({ tip }) => {
   const [value, setValue] = useState('')
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -35,7 +35,7 @@ export function SearchPanel() {
     <>
       <Search
         allowClear
-        placeholder="请输入问卷名搜索"
+        placeholder={tip ?? '请输入问卷名搜索'}
         size="middle"
         onSearch={onSearch}
         onChange={onChange}

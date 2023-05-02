@@ -1,3 +1,5 @@
+import type { PageList } from './common'
+
 /** loginUser */
 export interface IUserLogin {
   id: number
@@ -21,3 +23,6 @@ export type ListUser = IUser & {
   id: number
   status: number
 }
+
+/** UserList */
+export type UserList = PageList<ListUser>
