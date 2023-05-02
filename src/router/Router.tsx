@@ -9,11 +9,11 @@ import { userStore } from '~/store'
 import { Fallback } from '~/components/Fallback'
 
 const DomTitle: React.FC<RouterConfig> = (props) => {
-  const { meta, element, path } = props
+  const { meta, element } = props
   const title = meta?.title ? `${meta?.title} | 问卷调查管理系统` : '问卷调查管理系统'
   useTitle(title)
   return (
-    <Suspense fallback={<Fallback path={path}/>}>
+    <Suspense fallback={<Fallback />}>
       { element }
     </Suspense>
   )
