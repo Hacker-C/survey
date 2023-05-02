@@ -2,9 +2,11 @@ import type { MenuProps } from 'antd'
 import { Avatar, Dropdown } from 'antd'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { logout } from '~/api'
+import { useRequest } from 'ahooks'
+import { useSnapshot } from 'valtio'
+import { getUserProfile, logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
-import { menuStore, themeStore, userStore } from '~/store'
+import { menuStore, profileStore, themeStore, userStore } from '~/store'
 import { useMessage } from '~/hooks'
 
 interface SHeaderProps {
@@ -39,9 +41,19 @@ function HeaderLeft({ onToggle, collapsed }: SHeaderProps) {
 }
 
 function HeaderRight() {
-  const { toggle, theme } = themeStore
-
   const { success, error, contextHolder } = useMessage()
+  const { toggle, theme } = themeStore
+  const { update, profile } = useSnapshot(profileStore)
+
+  useRequest(getUserProfile, {
+    onSuccess: (res) => {
+      if (res.code === 200) {
+        update(res.data!)
+      } else {
+        error(res.msg ?? '获取用户信息失败')
+      }
+    }
+  })
 
   const toggleDark = () => {
     toggle()
@@ -94,10 +106,10 @@ function HeaderRight() {
           <Avatar
             size="large"
             icon={<IIcon icon='ph:user-light' />}
-            src={''}
+            src={profile?.avatar}
             className='flex-center'
           />
-          <div ml='2'>Hello, Peter</div>
+          <div ml='2'>Hello, { profile?.nickname }</div>
         </a>
       </Dropdown>
     </>

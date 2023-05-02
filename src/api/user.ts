@@ -1,5 +1,5 @@
-import type { ILoginForm, IRegisterForm, IUser, IUserLogin } from '~/interfaces'
-import { httpGet, httpPost } from '~/utils'
+import type { ILoginForm, IRegisterForm, IUser, IUserLogin, updateUserPasswordForm, userUpdateForm } from '~/interfaces'
+import { httpGet, httpPost, httpPut } from '~/utils'
 
 /** 登录 */
 export const login = (params: ILoginForm) => {
@@ -31,4 +31,14 @@ export const getUserProfile = () => {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
     }
   })
+}
+
+/** 个人更新用户信息 */
+export const updateUserProfile = (params: userUpdateForm) => {
+  return httpPost<IUser>('/user', { ...params })
+}
+
+/** 修改密码 */
+export const updateUserPassword = (params: updateUserPasswordForm) => {
+  return httpPut<{}>('/user/pwd', { ...params })
 }
