@@ -46,7 +46,7 @@ export function Profile() {
             label={<DarkThemeText>性别</DarkThemeText>}
             className='theme-duration dark:(text-darktext)'
           >
-            { profile?.gender === 0 ? '女' : '男' }
+            { profile?.gender === 1 ? '女' : '男' }
           </Descriptions.Item>
           <Descriptions.Item
             label={<DarkThemeText>邮箱</DarkThemeText>}

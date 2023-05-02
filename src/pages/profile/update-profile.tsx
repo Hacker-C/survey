@@ -92,8 +92,8 @@ export const UpdateProfile: React.FC = () => {
             rules={[{ required: true, message: '请选择性别' }]}
           >
             <Radio.Group >
-              <Radio value={1}>男</Radio>
-              <Radio value={0}>女</Radio>
+              <Radio value={0}>男</Radio>
+              <Radio value={1}>女</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item
