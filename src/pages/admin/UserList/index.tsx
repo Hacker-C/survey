@@ -7,6 +7,7 @@ import { deleteUser, disableUser, getUserList } from '~/api'
 import { IIcon } from '~/components/IIcon'
 import { SearchPanel } from '~/components/SearchPanel'
 import { useMessage } from '~/hooks'
+import { addKeyOfData } from '~/utils'
 
 const defaultAvatar = import.meta.env.VITE_REACT_APP_DEFAULT_AVATAR
 
@@ -15,23 +16,25 @@ export const UserList = () => {
   const [searchParams] = useSearchParams()
 
   // 获取用户列表
-  const { data, loading, run: runGetUerList } = useRequest(getUserList, {
-    manual: true,
-    onSuccess: (res) => {
-      if (res.code !== 200) {
-        error(res.msg)
+  const { data, loading, refresh } = useRequest(
+    () => getUserList({
+      pageNum: 1,
+      pageSize: 100,
+      nickname: searchParams.get('keyword') ?? ''
+    }),
+    {
+      onSuccess: (res) => {
+        if (res.code !== 200) {
+          error(res.msg)
+        }
+      },
+      onError: (err) => {
+        error(err.message)
       }
-    },
-    onError: (err) => {
-      error(err.message)
-    }
-  })
-  // 加载用户列表
-  const loadUsers = () => {
-    runGetUerList({ pageNum: 1, pageSize: 100, nickname: searchParams.get('keyword') ?? '' })
-  }
+    })
+  // 刷新用户列表
   useEffect(() => {
-    loadUsers()
+    refresh()
   }, [searchParams])
 
   // 禁用用户
@@ -50,7 +53,7 @@ export const UserList = () => {
         error(res.msg)
       } else {
         success('删除成功', () => {
-          loadUsers()
+          refresh()
         })
       }
     },
@@ -67,7 +70,7 @@ export const UserList = () => {
     warning('已取消删除')
   }
 
-  const users = data?.data?.rows ?? []
+  const users = addKeyOfData((data?.data?.rows ?? []))
   const columns: ColumnsType<typeof users[0]> = [
     {
       title: 'ID',
@@ -84,17 +87,17 @@ export const UserList = () => {
       title: '性别',
       dataIndex: 'gender',
       key: 'gender',
-      render(_, { gender }) {
-        return <span>{gender === 0 ? '男' : '女'}</span>
+      render(_, { gender, id }) {
+        return <span key={id}>{gender === 0 ? '男' : '女'}</span>
       },
       filters: [
         {
           text: '男',
-          value: 1
+          value: 0
         },
         {
           text: '女',
-          value: 0
+          value: 1
         }
       ],
       onFilter: (value: number, { gender }) => gender === value
@@ -103,8 +106,9 @@ export const UserList = () => {
       title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
-      render(_, { avatar }) {
+      render(_, { avatar, id }) {
         return <Image
+          key={id}
           src={avatar}
           width={40} height={40}
           preview={{ mask: <IIcon icon='ant-design:eye-outlined' /> }}
@@ -128,6 +132,7 @@ export const UserList = () => {
       key: 'status',
       render(_, { status, id }) {
         return <Switch
+          key={id}
           checkedChildren="正常"
           unCheckedChildren="禁用"
           defaultChecked={status === 0}
@@ -142,6 +147,7 @@ export const UserList = () => {
       key: 'action',
       render(_, { id, nickname }) {
         return <Popconfirm
+          key={id}
           title="删除用户"
           description={`确定删除用户 ${nickname} 吗？`}
           onConfirm={() => confirmDelete(id)}

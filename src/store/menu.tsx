@@ -25,7 +25,7 @@ const adminMenu: MenuItem[] = [
 const userMenu: MenuItem[] = [
   {
     key: '/survey/create',
-    icon: <IIcon icon="material-symbols:add"/>,
+    icon: <IIcon icon="material-symbols:add-notes-outline"/>,
     label: '新建问卷'
   },
   {
