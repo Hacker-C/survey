@@ -1,15 +1,15 @@
-import { Avatar, Button, Card, Descriptions, Typography } from 'antd'
+import { Avatar, Card, Descriptions, Typography } from 'antd'
 import { useSnapshot } from 'valtio'
 import { PasswordUpdate } from './update-psw'
+import { UpdateProfile } from './update-profile'
 import { IIcon } from '~/components/IIcon'
-import { profileStore, themeStore } from '~/store'
+import { profileStore } from '~/store'
 import { DarkThemeText } from '~/components/DarkThemeText'
 
 const { Meta } = Card
 const { Title } = Typography
 
 export function Profile() {
-  const { theme } = useSnapshot(themeStore)
   const { profile } = useSnapshot(profileStore)
 
   return (
@@ -18,13 +18,7 @@ export function Profile() {
         bordered={false}
         title={<Title level={4} className='theme-duration dark:(text-darktext)'>个人信息</Title>}
         extra={
-          <Button
-            type={theme === 'dark' ? 'primary' : 'default'}
-            icon={<IIcon icon='material-symbols:edit' width={'20'} className='mr1' /> as any}
-            className='flex-center'
-          >
-            编辑
-          </Button>
+          <UpdateProfile />
         }
         className='theme-duration dark:(bg-gray-800 text-darktext) min-h-screen-xm'
       >
