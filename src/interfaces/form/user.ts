@@ -1,22 +1,24 @@
-export interface ILoginForm {
+import type { Prettify } from '~/utils'
+
+export type ILoginForm = Prettify<{
   username: string
   password: string
-}
+}>
 
-export type IRegisterForm = ILoginForm & {
+export type IRegisterForm = Prettify<ILoginForm & {
   rePassword: string
-}
+}>
 
-export interface userUpdateForm {
+export type userUpdateForm = Prettify<{
   avatar: string
   email: string
   gender: number
   nickname: string
   phone: string
-}
+}>
 
-export interface updateUserPasswordForm {
+export type updateUserPasswordForm = Prettify<{
   oldPassword: string
   newPassword: string
   rePassword: string
-}
+}>
