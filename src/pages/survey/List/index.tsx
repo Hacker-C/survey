@@ -1,57 +1,29 @@
+import { useRequest } from 'ahooks'
+import { useSearchParams } from 'react-router-dom'
 import { SurveyItem } from '../components/SurveyItem'
 import { SurveyHeader } from '~/pages/survey/components/SurveyHeader'
-
-// mock data
-const surveys = [
-  {
-    id: 1,
-    title: '问卷1',
-    description: '问卷1描述',
-    status: 1,
-    createTime: '2021-01-01',
-    expireTime: '2021-01-01'
-  },
-  {
-    id: 2,
-    title: '问卷2',
-    description: '问卷2描述',
-    status: 0,
-    createTime: '2021-01-01',
-    expireTime: '2021-01-01'
-  },
-  {
-    id: 3,
-    title: '问卷3',
-    description: '问卷3描述',
-    status: 1,
-    createTime: '2021-01-01',
-    expireTime: '2021-01-01'
-  },
-  {
-    id: 4,
-    title: '问卷3',
-    description: '问卷3描述',
-    status: 1,
-    createTime: '2021-01-01',
-    expireTime: '2021-01-01'
-  },
-  {
-    id: 5,
-    title: '问卷3',
-    description: '问卷3描述',
-    status: 1,
-    createTime: '2021-01-01',
-    expireTime: '2021-01-01'
-  }
-]
+import { getSurveyList } from '~/api'
 
 export function SurveyList() {
+  const [params] = useSearchParams()
+
+  const { data } = useRequest(
+    () => getSurveyList({
+      pageNum: 1,
+      pageSize: 200,
+      surveyName: params.get('keyword') ?? ''
+    }),
+    {}
+  )
+
+  const surveys = data?.data?.rows ?? []
+
   return (
     <div>
       <SurveyHeader />
       {
         surveys.map(survey => (
-          <SurveyItem survey={survey} key={survey.id}/>
+          <SurveyItem survey={survey} key={survey.id} />
         ))
       }
     </div>
