@@ -1,14 +1,39 @@
 import { Button, Card, Tag } from 'antd'
+import { useState } from 'react'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
+import { updateSurveyLike } from '~/api'
+import { useMessage } from '~/hooks'
 
 interface SurveyItemProps {
   survey: ListSurvey
+  refresh?: () => void
 }
 
-export function SurveyItem({ survey }: SurveyItemProps) {
+export function SurveyItem({ survey, refresh }: SurveyItemProps) {
+  const { success, error, contextHolder } = useMessage()
   const { id, title, description, isLike, status, createTime, expireTime } = survey
+
+  const [like, seLike] = useState(isLike)
+
+  /** 收藏问卷 */
+  const onLike = () => {
+    updateSurveyLike(id, like === 0 ? 1 : 0)
+      .then((res) => {
+        if (res.code === 200) {
+          seLike(like === 0 ? 1 : 0)
+          success(like === 0 ? '已收藏' : '已取消收藏', () => {
+            refresh?.()
+          })
+        } else {
+          error(res.msg)
+        }
+      }).catch((error) => {
+        error(res.message)
+      })
+  }
+
   return (
     <>
       <Card
@@ -67,10 +92,11 @@ export function SurveyItem({ survey }: SurveyItemProps) {
             <Button
               type='text'
               size='small'
-              icon={<IIcon icon={isLike ? 'ic:baseline-star-rate' : 'ic:outline-star-border' } className='mr1' /> as any}
+              icon={<IIcon icon={like ? 'ic:baseline-star-rate' : 'ic:outline-star-border' } className='mr1' /> as any}
+              onClick={onLike}
               className='mr2 survey-item-bottom'
             >
-              { isLike ? '已收藏' : '收藏' }
+              { like === 1 ? '已收藏' : '收藏' }
             </Button>
             <Button
               type='text'
@@ -92,6 +118,7 @@ export function SurveyItem({ survey }: SurveyItemProps) {
           </div>
         </div>
       </Card>
+      { contextHolder }
     </>
   )
 }

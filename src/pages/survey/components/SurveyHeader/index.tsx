@@ -5,10 +5,11 @@ import { DarkThemeText } from '~/components/DarkThemeText'
 
 interface SurveyHeaderProps {
   title?: string
+  total?: number
 }
 
 export function SurveyHeader(props: SurveyHeaderProps) {
-  const { title: _title = '问卷列表' } = props
+  const { title: _title = '问卷列表', total } = props
 
   const sortOptions = [
     {
@@ -51,7 +52,7 @@ export function SurveyHeader(props: SurveyHeaderProps) {
   return (
     <div className='flex items-center'>
       <Typography.Title level={4} className='theme-duration dark:(text-darktext)'>
-        {_title}
+        {`${_title}（${total}）`}
       </Typography.Title>
       <div flex='1'></div>
       <div
