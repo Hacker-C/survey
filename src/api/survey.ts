@@ -1,5 +1,5 @@
 import type { GetSurveyForAll, ListSurveyForm, Surveylist, addSurveyForm } from '~/interfaces'
-import { httpGet, httpPost, httpPut } from '~/utils'
+import { httpDelete, httpGet, httpPost, httpPut } from '~/utils'
 
 /** 用户添加问卷 */
 export const addSurvey = (params: addSurveyForm) => {
@@ -38,6 +38,39 @@ export const updateSurveyLike = (id: number, isLike: number) => {
 export const getSurveyListLike = (params: ListSurveyForm) => {
   return httpGet<Surveylist>('/survey/like', {
     params: { ...params },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+/** 设置问卷状态 0 未发布 1 发布 2 放入回收站 */
+export const updateSurveyStatus = (id: number, status: number) => {
+  return httpPut<{}>(`/survey/${id}`, { status }, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+/** 发布问卷 */
+export const makePublic = (id: number) => {
+  return updateSurveyStatus(id, 1)
+}
+
+/** 取消发布问卷 */
+export const cancelPublic = (id: number) => {
+  return updateSurveyStatus(id, 0)
+}
+
+/** 放入回收站 */
+export const addRecycle = (id: number) => {
+  return updateSurveyStatus(id, 2)
+}
+
+/** 删除问卷 */
+export const deleteSurvey = (id: number) => {
+  return httpDelete(`/survey/${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }

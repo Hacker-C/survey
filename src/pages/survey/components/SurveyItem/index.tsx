@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
-import { updateSurveyLike } from '~/api'
+import { cancelPublic, makePublic, updateSurveyLike } from '~/api'
 import { useMessage } from '~/hooks'
 
 interface SurveyItemProps {
@@ -16,6 +16,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
   const { id, title, description, isLike, status, createTime, expireTime } = survey
 
   const [like, seLike] = useState(isLike)
+  const [statu, seStatu] = useState(status)
 
   /** 收藏问卷 */
   const onLike = () => {
@@ -29,8 +30,24 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         } else {
           error(res.msg)
         }
-      }).catch((error) => {
-        error(res.message)
+      }).catch((err) => {
+        error(err.message)
+      })
+  }
+
+  /** 发布问卷 */
+  const onPublic = () => {
+    const fn = statu === 0 ? makePublic : cancelPublic
+    fn(id)
+      .then((res) => {
+        if (res.code === 200) {
+          seStatu(statu === 0 ? 1 : 0)
+          success(statu === 0 ? '成功发布问卷' : '已撤销发布')
+        } else {
+          error(res.msg)
+        }
+      }).catch((err) => {
+        error(err.message)
       })
   }
 
@@ -46,7 +63,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         extra={
           <div className='flex items-center theme-duration dark:(text-darktext)'>
             <span className='mr3'>ID: {id}</span>
-            <Tag color={status === 0 ? 'orange' : 'blue'} className='mr3'>{status === 0 ? '未发布' : '已发布'}</Tag>
+            <Tag color={statu === 0 ? 'orange' : 'blue'} className='mr3'>{statu === 0 ? '未发布' : '已发布'}</Tag>
             <span className='mr3'>答卷：{10}</span>
             <span className='mr3'>创建：{formatTime(createTime)}</span>
             <span>截止：{formatTime(expireTime)}</span>
@@ -84,18 +101,25 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
             <Button
               type='text'
               size='small'
-              icon={<IIcon icon='material-symbols:play-circle' className='mr1' /> as any}
+              onClick={onPublic}
               className='mr2 survey-item-bottom'
+              style={{
+                color: statu === 1 ? '#18a058' : ''
+              }}
             >
-              发布
+              <IIcon icon='material-symbols:play-circle' className='mr1' />
+              { statu === 0 ? '发布' : '已发布' }
             </Button>
             <Button
               type='text'
               size='small'
-              icon={<IIcon icon={like ? 'ic:baseline-star-rate' : 'ic:outline-star-border' } className='mr1' /> as any}
               onClick={onLike}
               className='mr2 survey-item-bottom'
+              style={{
+                color: isLike === 1 ? '#d03050' : ''
+              }}
             >
+              <IIcon icon={like ? 'ic:baseline-star-rate' : 'ic:outline-star-border' } className='mr1' />
               { like === 1 ? '已收藏' : '收藏' }
             </Button>
             <Button

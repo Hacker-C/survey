@@ -40,7 +40,7 @@ const userMenu: MenuItem[] = [
   },
   {
     key: '/survey/star',
-    icon: <IIcon icon='material-symbols:star'/>,
+    icon: <IIcon icon='material-symbols:heart-plus-outline'/>,
     label: '收藏夹'
   },
   {
