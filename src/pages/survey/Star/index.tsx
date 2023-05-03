@@ -20,8 +20,9 @@ export function SurveyStar() {
     refresh()
   }, [searchParams])
 
-  const surveys = data?.data?.rows ?? []
-  const total = data?.data?.total ?? 0
+  // 过滤一下 status === 2 的，表示已放入回收站
+  const surveys = (data?.data?.rows ?? []).filter(item => item.status !== 2)
+  const total = surveys.length
 
   return (
     <>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
-import { cancelPublic, makePublic, updateSurveyLike } from '~/api'
+import { addRecycle, cancelPublic, makePublic, updateSurveyLike } from '~/api'
 import { useMessage } from '~/hooks'
 
 interface SurveyItemProps {
@@ -43,6 +43,22 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         if (res.code === 200) {
           seStatu(statu === 0 ? 1 : 0)
           success(statu === 0 ? '成功发布问卷' : '已撤销发布')
+        } else {
+          error(res.msg)
+        }
+      }).catch((err) => {
+        error(err.message)
+      })
+  }
+
+  /** 放入回收站 */
+  const onAddRecycle = () => {
+    addRecycle(id)
+      .then((res) => {
+        if (res.code === 200) {
+          success('已删除', () => {
+            refresh()
+          })
         } else {
           error(res.msg)
         }
@@ -131,9 +147,11 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               复制
             </Button>
             <Button
+              danger
               type='text'
               size='small'
               icon={<IIcon icon='material-symbols:delete' className='mr1' /> as any}
+              onClick={onAddRecycle}
               className='survey-item-bottom'
             >
               删除
