@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks'
 import { useState } from 'react'
 import { SurveyEdit } from '../components/SurveyEdit'
 import { QuestionTemplate } from '../components/QuestionTemplate'
+import { LogicEdit } from './logic-edit'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
 import { getSurveyNameList } from '~/api'
@@ -78,7 +79,9 @@ export function QuestionEdit() {
                {contentList1[activeTabKey1]}
             </Card>
           </div>
-          <div flex='1' className='flex justify-center ml70'>center</div>
+          <div flex='1' className='flex justify-center ml70'>
+            <LogicEdit />
+          </div>
           <div>
           <Card
               tabList={tabList2}
