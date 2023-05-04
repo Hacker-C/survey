@@ -1,4 +1,3 @@
-import type { Option } from './option'
 import type { PageList } from './common'
 import type { Prettify } from '~/utils'
 
@@ -14,9 +13,11 @@ export type ListSurvey = Prettify<{
 
 export type GetSurveyForAll = Prettify<{
   id: number
-  options: Option[]
-  required: number
   title: string
+  description: string
+  nickname: string
+  questions: any[]
+  expireTime: string
   type: number
 }>
 

@@ -100,3 +100,8 @@ export const getSurveyNameList = () => {
     }
   })
 }
+
+/** 更新问卷 */
+export const updateSurvey = (params: addSurveyForm & { id: number }) => {
+  return httpPut<{}>('/survey', { ...params })
+}

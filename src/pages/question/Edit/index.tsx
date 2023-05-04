@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Card } from 'antd'
 import { useRequest } from 'ahooks'
 import { useState } from 'react'
+import { SurveyEdit } from '../components/SurveyEdit'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
 import { getSurveyNameList } from '~/api'
@@ -27,14 +28,14 @@ export function QuestionEdit() {
     {
       key: 'tab1',
       tab: <span flex='' items='center'>
-        <IIcon icon='ic:round-list-alt' />
+        <IIcon icon='material-symbols:edit-document-outline' />
         <span m='l1'>编辑</span>
       </span>
     },
     {
       key: 'tab2',
       tab: <span flex='' items='center'>
-      <IIcon icon='ic:sharp-format-list-numbered' />
+      <IIcon icon='uil:setting' />
       <span m='l1'>问卷设置</span>
     </span>
     }
@@ -45,7 +46,7 @@ export function QuestionEdit() {
   }
   const contentList2: Record<string, React.ReactNode> = {
     tab1: <p>content1</p>,
-    tab2: <p>问卷设置</p>
+    tab2: <SurveyEdit />
   }
   const [activeTabKey1, setActiveTabKey1] = useState<string>('tab1')
   const onTab1Change = (key: string) => {
@@ -80,7 +81,7 @@ export function QuestionEdit() {
               tabList={tabList2}
               activeTabKey={activeTabKey2}
               onTabChange={onTab2Change}
-              className='w60 min-types-h'
+              className='w70 min-types-h'
             >
               {contentList2[activeTabKey2]}
             </Card>
