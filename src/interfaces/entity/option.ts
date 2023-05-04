@@ -1,7 +1,7 @@
 import type { Prettify } from '~/utils'
 
-export type Option = Prettify<{
-  content: string
+export type IOption = Prettify<{
   id: number
+  content: string
   sort: number
 }>

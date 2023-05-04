@@ -54,7 +54,9 @@ export default defineConfig({
     'theme-duration': 'transition duration-300 ease-in-out',
     'survey-item-bottom': 'flex items-center text-base theme-duration dark:(text-darktext hover:(text-primary))',
     'h-sreen': 'h-[100vh]',
-    'wh-sreen': 'w-[100vw] h-[100vh]'
+    'wh-sreen': 'w-[100vw] h-[100vh]',
+    'requred-tip': 'after:(content-["*"] ml1 text-red-500)',
+    'question-border-hover': 'border-2 border-solid border-transparent hover:border-gray-300'
   },
   rules: [
     [

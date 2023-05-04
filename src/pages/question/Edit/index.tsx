@@ -78,7 +78,7 @@ export function QuestionEdit() {
                {contentList1[activeTabKey1]}
             </Card>
           </div>
-          <div flex='1' className='flex justify-center'>center</div>
+          <div flex='1' className='flex justify-center ml70'>center</div>
           <div>
           <Card
               tabList={tabList2}
