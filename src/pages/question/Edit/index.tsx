@@ -3,6 +3,7 @@ import { Button, Card } from 'antd'
 import { useRequest } from 'ahooks'
 import { useState } from 'react'
 import { SurveyEdit } from '../components/SurveyEdit'
+import { QuestionTemplate } from '../components/QuestionTemplate'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
 import { getSurveyNameList } from '~/api'
@@ -41,7 +42,9 @@ export function QuestionEdit() {
     }
   ]
   const contentList1: Record<string, React.ReactNode> = {
-    tab1: <p>content1</p>,
+    tab1: <>
+      <QuestionTemplate />
+    </>,
     tab2: <p>content2</p>
   }
   const contentList2: Record<string, React.ReactNode> = {
@@ -65,14 +68,14 @@ export function QuestionEdit() {
         HeaderRight={<HeaderRight />}
       >
         <div p='5' bg='lightbg' flex=''>
-          <div>
+          <div className=''>
             <Card
               tabList={tabList1}
               activeTabKey={activeTabKey1}
               onTabChange={onTab1Change}
-              className='w60 min-types-h'
+              className='w70 min-types-h fixed'
             >
-              {contentList1[activeTabKey1]}
+               {contentList1[activeTabKey1]}
             </Card>
           </div>
           <div flex='1' className='flex justify-center'>center</div>
@@ -81,7 +84,7 @@ export function QuestionEdit() {
               tabList={tabList2}
               activeTabKey={activeTabKey2}
               onTabChange={onTab2Change}
-              className='w70 min-types-h'
+              className='w60 min-types-h'
             >
               {contentList2[activeTabKey2]}
             </Card>

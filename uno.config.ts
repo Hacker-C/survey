@@ -69,7 +69,12 @@ export default defineConfig({
     ],
     [
       'min-types-h', {
-        'min-height': 'calc(100vh - 105px)'
+        height: 'calc(100vh - 105px)'
+      }
+    ],
+    [
+      'min-questions-h', {
+        height: 'calc(100vh - 200px)'
       }
     ],
     [
