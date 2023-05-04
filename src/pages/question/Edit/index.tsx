@@ -1,13 +1,15 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Card } from 'antd'
 import { useRequest } from 'ahooks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSnapshot } from 'valtio'
 import { SurveyEdit } from '../components/SurveyEdit'
 import { QuestionTemplate } from '../components/QuestionTemplate'
 import { LogicEdit } from './logic-edit'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
-import { getSurveyNameList } from '~/api'
+import { getSurveyList } from '~/api'
+import { questionStore } from '~/store'
 
 export function QuestionEdit() {
   const tabList1 = [
@@ -102,16 +104,32 @@ function HeaderLeft() {
   const nav = useNavigate()
   const { id } = useParams()
 
-  const { data } = useRequest(getSurveyNameList)
-  const surveyNameList = data?.data ?? []
-  const { title } = surveyNameList.find(item => item.id === +id!) ?? {}
+  const { updateCurSurvey, curSurvey } = useSnapshot(questionStore)
+
+  const { run: runGetSurveyList } = useRequest(() => getSurveyList({
+    pageNum: 1,
+    pageSize: 200
+  }), {
+    manual: true,
+    onSuccess(res) {
+      if (res.code === 200) {
+        const survey = res?.data?.rows.find(item => item.id === +id!)
+        const { title, description, expireTime } = survey!
+        updateCurSurvey({ id: +id!, title, description, expireTime })
+      }
+    }
+  })
+
+  useEffect(() => {
+    runGetSurveyList()
+  }, [])
 
   return <div p='x5' flex='' items='center'>
     <span flex='' items='center' text='primary' cursor='pointer'>
       <IIcon icon='material-symbols:arrow-back-ios-new-rounded' />
       <span m='l1' onClick={() => nav(-1)}>返回</span>
     </span>
-    <h2 text='base' font='bold' m='l5'>{title}</h2>
+    <h2 text='base' font='bold' m='l5'>{curSurvey?.title}</h2>
   </div>
 }
 

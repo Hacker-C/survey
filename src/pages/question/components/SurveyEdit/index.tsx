@@ -2,8 +2,7 @@ import { Button, Form, Input } from 'antd'
 import { useRequest } from 'ahooks'
 import { useParams } from 'react-router'
 import { useSnapshot } from 'valtio'
-import { useEffect } from 'react'
-import { getSurveyList, updateSurvey } from '~/api'
+import { updateSurvey } from '~/api'
 import { SuDatePicker } from '~/components/SuDatePicker'
 import { useMessage } from '~/hooks'
 import { questionStore } from '~/store'
@@ -18,24 +17,6 @@ export const SurveyEdit = () => {
 
   const { id } = useParams()
   const { updateCurSurvey, curSurvey } = useSnapshot(questionStore)
-
-  const { refresh, run: runGetSurveyList } = useRequest(() => getSurveyList({
-    pageNum: 1,
-    pageSize: 200
-  }), {
-    manual: true,
-    onSuccess(res) {
-      if (res.code === 200) {
-        const survey = res?.data?.rows.find(item => item.id === +id!)
-        const { title, description, expireTime } = survey!
-        updateCurSurvey({ id: +id!, title, description, expireTime })
-      }
-    }
-  })
-
-  useEffect(() => {
-    runGetSurveyList()
-  }, [])
 
   form.setFieldsValue({
     title: curSurvey?.title,
@@ -56,9 +37,7 @@ export const SurveyEdit = () => {
       manual: true,
       onSuccess(res) {
         if (res.code === 200) {
-          success('更新成功', () => {
-            refresh()
-          })
+          success('更新成功')
         } else {
           error(res.msg)
         }
