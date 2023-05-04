@@ -68,6 +68,11 @@ export default defineConfig({
       }
     ],
     [
+      'min-types-h', {
+        'min-height': 'calc(100vh - 105px)'
+      }
+    ],
+    [
       'min-content-h', {
         'min-height': 'calc(100vh - 120px)'
       }

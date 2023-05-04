@@ -13,7 +13,7 @@ function App() {
           }
         }}
       >
-        <div className='min-app-h'>
+        <div>
           <Router />
         </div>
       </ConfigProvider >

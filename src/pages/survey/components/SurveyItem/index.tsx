@@ -1,5 +1,6 @@
 import { Button, Card, Popconfirm, Tag } from 'antd'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
@@ -13,6 +14,7 @@ interface SurveyItemProps {
 
 export function SurveyItem({ survey, refresh }: SurveyItemProps) {
   const { success, error, contextHolder } = useMessage()
+  const nav = useNavigate()
   const { id, title, description, isLike, status, createTime, expireTime } = survey
 
   const [like, seLike] = useState(isLike)
@@ -93,6 +95,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
             <Button
               type='text'
               icon={<IIcon icon='iconoir:page-edit' className='mr2 text-sky-500' width='23' /> as any}
+              onClick={() => nav(`/question/edit/${id}`)}
               className='mr4 survey-item-bottom'
             >
               设计问卷

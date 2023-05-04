@@ -91,3 +91,12 @@ export const deleteSurvey = (id: number) => {
     }
   })
 }
+
+/** 获取问卷名称列表 */
+export const getSurveyNameList = () => {
+  return httpGet<{ id: number; title: string }[]>('/survey/name', {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
