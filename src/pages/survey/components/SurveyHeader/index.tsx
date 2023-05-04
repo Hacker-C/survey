@@ -6,47 +6,53 @@ import { DarkThemeText } from '~/components/DarkThemeText'
 interface SurveyHeaderProps {
   title?: string
   total?: number
+  toggleStatus?: (status: number) => void
+  toggleSort?: (sort: number) => void
 }
 
 export function SurveyHeader(props: SurveyHeaderProps) {
-  const { title: _title = '问卷列表', total } = props
+  const { title: _title = '问卷列表', total, toggleStatus, toggleSort } = props
 
   const sortOptions = [
     {
-      value: 'jack',
-      label: '时间正序'
+      value: 1,
+      label: '创建时间正序'
     },
     {
-      value: 'lucy',
-      label: '时间倒序'
+      value: 2,
+      label: '创建时间倒序'
     },
     {
-      value: 'tom',
-      label: '问卷正序'
+      value: 3,
+      label: '截止时间正序'
     },
     {
-      value: 'tom2',
-      label: '问卷倒序'
+      value: 4,
+      label: '截止时间倒序'
     }
   ]
 
   const statusOptions = [
     {
-      value: 'jack',
-      label: '未发布'
+      value: 0,
+      label: '暂未发布'
     },
     {
-      value: 'lucy',
-      label: '已发布'
+      value: 1,
+      label: '已经发布'
+    },
+    {
+      value: -1,
+      label: '所有问卷'
     }
   ]
 
-  const onSortChange = (value: string) => {
-    console.log(`selected ${value}`)
+  const onSortChange = (value: number) => {
+    toggleSort?.(value)
   }
 
-  const onStatusChange = (value: string) => {
-    console.log(`selected ${value}`)
+  const onStatusChange = (value: number) => {
+    toggleStatus?.(value)
   }
 
   return (
@@ -61,7 +67,7 @@ export function SurveyHeader(props: SurveyHeaderProps) {
       >
         <Select
           bordered={false}
-          placeholder={<DarkThemeText>时间顺序</DarkThemeText>}
+          placeholder={<DarkThemeText>按照时间顺序</DarkThemeText>}
           optionFilterProp="children"
           onChange={onSortChange}
           filterOption={(input, option) =>
@@ -69,13 +75,13 @@ export function SurveyHeader(props: SurveyHeaderProps) {
           }
           suffixIcon={ <IIcon icon='solar:round-sort-vertical-linear' className='theme-duration dark:text-darktext'/>}
           options={sortOptions}
-          className='mr1 w26 theme-duration dark:(text-darktext)'
+          className='mr1 w33 theme-duration dark:(text-darktext)'
         />
 
       </div>
       <Select
         bordered={false}
-        placeholder={<DarkThemeText>状态</DarkThemeText>}
+        placeholder={<DarkThemeText>是否发布</DarkThemeText>}
         optionFilterProp="children"
         onChange={onStatusChange}
         filterOption={(input, option) =>
@@ -83,7 +89,7 @@ export function SurveyHeader(props: SurveyHeaderProps) {
         }
         suffixIcon={ <IIcon icon='solar:round-sort-vertical-linear' className='theme-duration dark:text-darktext'/>}
         options={statusOptions}
-        className='w19'
+        className='w26'
       />
       <SearchPanel />
     </div>
