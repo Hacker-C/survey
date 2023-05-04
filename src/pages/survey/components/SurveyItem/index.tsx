@@ -1,4 +1,4 @@
-import { Button, Card, Tag } from 'antd'
+import { Button, Card, Popconfirm, Tag } from 'antd'
 import { useState } from 'react'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
@@ -57,7 +57,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
       .then((res) => {
         if (res.code === 200) {
           success('已删除', () => {
-            refresh()
+            refresh?.()
           })
         } else {
           error(res.msg)
@@ -124,7 +124,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               }}
             >
               <IIcon icon='material-symbols:play-circle' className='mr1' />
-              { statu === 0 ? '发布' : '已发布' }
+              {statu === 0 ? '发布' : '已发布'}
             </Button>
             <Button
               type='text'
@@ -132,35 +132,46 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               onClick={onLike}
               className='mr2 survey-item-bottom'
               style={{
-                color: isLike === 1 ? '#d03050' : ''
+                color: isLike === 1 ? '#2080f0' : ''
               }}
             >
-              <IIcon icon={like ? 'ic:baseline-star-rate' : 'ic:outline-star-border' } className='mr1' />
-              { like === 1 ? '已收藏' : '收藏' }
+              <IIcon icon={like ? 'ic:baseline-star-rate' : 'ic:outline-star-border'} className='mr1' />
+              {like === 1 ? '已收藏' : '收藏'}
             </Button>
             <Button
               type='text'
               size='small'
-              icon={<IIcon icon='ph:copy-simple-bold' className='mr1' /> as any}
+              style={{
+                color: '#FBC02D'
+              }}
               className='mr2 survey-item-bottom'
             >
+              <IIcon icon='ph:copy-simple-bold' className='mr1' />
               复制
             </Button>
-            <Button
-              danger
-              type='text'
-              size='small'
-              icon={<IIcon icon='material-symbols:delete' className='mr1' /> as any}
-              onClick={onAddRecycle}
-              className='survey-item-bottom'
+            <Popconfirm
+              title="确定删除该问卷？"
+              description="删除后将移入回收站"
+              okText="确定"
+              cancelText="取消"
+              onConfirm={() => {
+                onAddRecycle()
+              }}
             >
-              删除
-            </Button>
-
+              <Button
+                danger
+                type='text'
+                size='small'
+                icon={<IIcon icon='material-symbols:delete' className='mr1' /> as any}
+                className='survey-item-bottom'
+              >
+                删除
+              </Button>
+            </Popconfirm>
           </div>
         </div>
       </Card>
-      { contextHolder }
+      {contextHolder}
     </>
   )
 }

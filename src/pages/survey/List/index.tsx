@@ -30,7 +30,7 @@ export function SurveyList() {
       <SurveyHeader total={total}/>
       {
         surveys.map(survey => (
-          <SurveyItem survey={survey} key={survey.id} />
+          <SurveyItem survey={survey} key={survey.id} refresh={refresh}/>
         ))
       }
     </div>

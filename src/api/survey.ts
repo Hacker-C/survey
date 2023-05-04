@@ -68,6 +68,11 @@ export const addRecycle = (id: number) => {
   return updateSurveyStatus(id, 2)
 }
 
+/** 从回收站恢复 */
+export const cancelRecycle = (id: number) => {
+  return updateSurveyStatus(id, 0)
+}
+
 /** 获取回收站的问卷，没有 status */
 export const getRecycleList = (params: ListSurveyForm) => {
   return httpGet<Surveylist>('/survey/recycle', {
