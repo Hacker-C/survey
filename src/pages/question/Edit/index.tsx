@@ -6,6 +6,7 @@ import { useSnapshot } from 'valtio'
 import { SurveyEdit } from '../components/SurveyEdit'
 import { QuestionTemplate } from '../components/QuestionTemplate'
 import { LogicEdit } from './logic-edit'
+import { HeaderCenter } from './HeaderCenter'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
 import { getSurveyList } from '~/api'
@@ -16,7 +17,7 @@ export function QuestionEdit() {
     {
       key: 'tab1',
       tab: <span flex='' items='center'>
-        <IIcon icon='ic:round-list-alt' />
+        <IIcon icon='bxs:component' />
         <span m='l1'>题型</span>
       </span>
     },
@@ -89,7 +90,7 @@ export function QuestionEdit() {
               tabList={tabList2}
               activeTabKey={activeTabKey2}
               onTabChange={onTab2Change}
-              className='w60 min-types-h'
+              className='w70 min-types-h'
             >
               {contentList2[activeTabKey2]}
             </Card>
@@ -130,12 +131,6 @@ function HeaderLeft() {
       <span m='l1' onClick={() => nav(-1)}>返回</span>
     </span>
     <h2 text='base' font='bold' m='l5'>{curSurvey?.title}</h2>
-  </div>
-}
-
-function HeaderCenter() {
-  return <div>
-    操作
   </div>
 }
 

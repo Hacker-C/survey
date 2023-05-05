@@ -56,7 +56,7 @@ export default defineConfig({
     'h-sreen': 'h-[100vh]',
     'wh-sreen': 'w-[100vw] h-[100vh]',
     'requred-tip': 'after:(content-["*"] ml1 text-red-500)',
-    'question-border-hover': 'border-2 border-solid border-transparent hover:border-gray-300'
+    'question-border-hover': 'border-2 border-solid border-transparent hover:border-primary'
   },
   rules: [
     [
