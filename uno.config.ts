@@ -85,6 +85,11 @@ export default defineConfig({
       }
     ],
     [
+      'min-actions-h', {
+        'min-height': 'calc(100vh - 65px)'
+      }
+    ],
+    [
       'min-app-h', {
         'min-height': '100vh'
       }
@@ -96,6 +101,7 @@ export default defineConfig({
     ]
   ],
   safelist: [
-    'ml'
+    'ml',
+    'border'
   ]
 })

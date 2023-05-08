@@ -1,9 +1,10 @@
-import type { Prettify } from '~/utils'
+import type { QuestionType } from '~/constant'
 
-export type IQuestion = Prettify<{
+export interface IQuestion {
   id: number
-  type: number
+  type: QuestionType
   required: number
   surveyId: number
   title: string
-}>
+  sort?: number
+}

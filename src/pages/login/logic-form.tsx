@@ -18,6 +18,9 @@ export function LogicForm() {
       } else {
         error(res?.msg ?? '登录失败')
       }
+    },
+    onError() {
+      error('请求失败')
     }
   })
 

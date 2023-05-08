@@ -5,7 +5,7 @@ import { useSnapshot } from 'valtio'
 import { updateSurvey } from '~/api'
 import { SuDatePicker } from '~/components/SuDatePicker'
 import { useMessage } from '~/hooks'
-import { questionStore } from '~/store'
+import { surveyStore } from '~/store'
 
 export const SurveyEdit = () => {
   const { success, error, contextHolder } = useMessage()
@@ -16,7 +16,7 @@ export const SurveyEdit = () => {
   }>()
 
   const { id } = useParams()
-  const { updateCurSurvey, curSurvey } = useSnapshot(questionStore)
+  const { updateCurSurvey, curSurvey } = useSnapshot(surveyStore)
 
   form.setFieldsValue({
     title: curSurvey?.title,

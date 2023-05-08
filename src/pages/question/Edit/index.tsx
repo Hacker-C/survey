@@ -5,14 +5,27 @@ import { useEffect, useState } from 'react'
 import { useSnapshot } from 'valtio'
 import { SurveyEdit } from '../components/SurveyEdit'
 import { QuestionTemplate } from '../components/QuestionTemplate'
+import { QuestionDetailEdit } from '../components/QuestionDetailEdit'
+import { QuestionTitleList } from '../components/QuestionTitleList'
 import { LogicEdit } from './logic-edit'
 import { HeaderCenter } from './HeaderCenter'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
-import { getSurveyList } from '~/api'
-import { questionStore } from '~/store'
+import { getSurveyList, listQuestion } from '~/api'
+import { questionStore, surveyStore } from '~/store'
 
 export function QuestionEdit() {
+  const { curSurvey } = useSnapshot(surveyStore)
+  const { refresh } = useRequest(() => listQuestion({
+    pageNum: 1,
+    pageSize: 200,
+    surveyId: curSurvey?.id as number
+  }), {
+    onSuccess(res) {
+      questionStore.updateQuestionList(res?.data?.rows ?? [])
+    }
+  })
+
   const tabList1 = [
     {
       key: 'tab1',
@@ -47,12 +60,12 @@ export function QuestionEdit() {
   ]
   const contentList1: Record<string, React.ReactNode> = {
     tab1: <>
-      <QuestionTemplate />
+      <QuestionTemplate onLoad={refresh}/>
     </>,
-    tab2: <p>content2</p>
+    tab2: <QuestionTitleList />
   }
   const contentList2: Record<string, React.ReactNode> = {
-    tab1: <p>content1</p>,
+    tab1: <QuestionDetailEdit />,
     tab2: <SurveyEdit />
   }
   const [activeTabKey1, setActiveTabKey1] = useState<string>('tab1')
@@ -71,7 +84,7 @@ export function QuestionEdit() {
         HeaderCenter={<HeaderCenter />}
         HeaderRight={<HeaderRight />}
       >
-        <div p='5' bg='lightbg' flex=''>
+        <div p='5' bg='lightbg' flex='' className='min-actions-h'>
           <div className=''>
             <Card
               tabList={tabList1}
@@ -82,7 +95,7 @@ export function QuestionEdit() {
                {contentList1[activeTabKey1]}
             </Card>
           </div>
-          <div flex='1' className='flex justify-center ml70'>
+          <div flex='1' className='flex justify-center ml70 mr70'>
             <LogicEdit />
           </div>
           <div>
@@ -90,7 +103,7 @@ export function QuestionEdit() {
               tabList={tabList2}
               activeTabKey={activeTabKey2}
               onTabChange={onTab2Change}
-              className='w70 min-types-h'
+              className='w70 min-types-h fixed right-5'
             >
               {contentList2[activeTabKey2]}
             </Card>
@@ -105,7 +118,7 @@ function HeaderLeft() {
   const nav = useNavigate()
   const { id } = useParams()
 
-  const { updateCurSurvey, curSurvey } = useSnapshot(questionStore)
+  const { updateCurSurvey, curSurvey } = useSnapshot(surveyStore)
 
   const { run: runGetSurveyList } = useRequest(() => getSurveyList({
     pageNum: 1,
@@ -136,9 +149,12 @@ function HeaderLeft() {
 
 function HeaderRight() {
   return (
-    <div p='x5'>
+    <div p='x5' flex='center'>
       <Button m='r2'>保存</Button>
-      <Button type='primary'>发布</Button>
+      <Button type='primary' flex='center'>
+        <IIcon icon='mingcute:send-plane-fill' className='mr1' />
+        发布
+      </Button>
     </div>
   )
 }

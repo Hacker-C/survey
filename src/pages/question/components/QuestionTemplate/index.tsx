@@ -1,26 +1,134 @@
 import { Typography } from 'antd'
-import { TitleText } from '../questions/text-view/title-text'
-import { TextView } from '../questions/text-view/text-view'
-import { TitleView } from '../questions/text-view/title-view'
-import { LineInput } from '../questions/user-input/line-input'
-import { AreaInput } from '../questions/user-input/area-input'
-import { SingleChoice } from '../questions/user-choice/single-choice'
-import { MultipleChoice } from '../questions/user-choice/multiple-choice'
+import { useSnapshot } from 'valtio'
+import { AreaInput, LineInput, MultipleChoice, SingleChoice, TextView, TitleText, TitleView } from '../questions'
+import { questionStore, surveyStore } from '~/store'
+import { QuestionType, SEPERATOR } from '~/constant'
+import { saveQuestion } from '~/api'
+import { useMessage } from '~/hooks'
 
-export const QuestionTemplate = () => {
+interface QuestionTemplateProps {
+  onLoad: () => void
+}
+
+export const QuestionTemplate: React.FC<QuestionTemplateProps> = ({ onLoad }) => {
+  const { addQuestion } = questionStore
+  const { curSurvey } = useSnapshot(surveyStore)
+  const { error, contextHolder } = useMessage()
+
   return <div className='overflow-y-scroll min-questions-h'>
 
-    <Typography.Title level={5}>文本显示类</Typography.Title>
-    <TitleText />
-    <TextView />
-    <TitleView />
+    <Typography.Title level={5}>
+      <span text='primary'>文本显示类</span>
+    </Typography.Title>
+    <div className='question-border-hover mb2' onClick={() => {
+      saveQuestion({
+        type: QuestionType.TITLE_TEXT_VIEW,
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: `标题${SEPERATOR}文本`
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
+      })
+    }}>
+      <TitleText isModel={true}/>
+    </div>
+    <div className='question-border-hover mb2' onClick={() => {
+      saveQuestion({
+        type: QuestionType.TEXT_VIEW,
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '文本描述'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
+      })
+    }}>
+      <TextView isModel={true}/>
+    </div>
+    <div className='question-border-hover mb2' onClick={() => {
+      saveQuestion({
+        type: QuestionType.TITLE_VIEW,
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '标题'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
+      })
+    }}>
+      <TitleView isModel={true}/>
+    </div>
 
-    <Typography.Title level={5}>用户输入类</Typography.Title>
-    <LineInput />
-    <AreaInput />
+    <Typography.Title level={5}>
+      <span text='primary'>
+        用户输入类
+      </span>
+    </Typography.Title>
+    <div className='question-border-hover mb2' onClick={() => {
+      saveQuestion({
+        type: QuestionType.LINE_INPUT,
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '单行输入标题'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
+      })
+    }}>
+      <LineInput isModel={true}/>
+    </div>
 
-    <Typography.Title level={5}>用户选择类</Typography.Title>
-    <SingleChoice />
-    <MultipleChoice />
+    <div className='question-border-hover mb2' onClick={() => {
+      saveQuestion({
+        type: QuestionType.AREA_INPUT,
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '段落输入标题'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
+      })
+    }}>
+      <AreaInput isModel={true}/>
+    </div>
+
+    <Typography.Title level={5}>
+      <span text='primary'>
+        用户选择类
+      </span>
+    </Typography.Title>
+    <div className='question-border-hover mb2' onClick={() => {
+      addQuestion({
+        type: QuestionType.SINGLE_CHOICE,
+        surveyId: curSurvey?.id as number
+      })
+    }}>
+      <SingleChoice isModel={true} />
+    </div>
+    <div className='question-border-hover mb2' onClick={() => {
+      addQuestion({
+        type: QuestionType.MULTIPLE_CHOICE,
+        surveyId: curSurvey?.id as number
+      })
+    }}>
+      <MultipleChoice isModel={true} />
+    </div>
+    { contextHolder }
   </div>
 }
