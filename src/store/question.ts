@@ -17,12 +17,14 @@ export const questionStore = proxyWithHistory<{
         questionStore.value.questionList.splice(index, 0, q as IQuestion)
       },
       updateCurQuestion: (q) => {
-        questionStore.value.curQuestion = q
-        questionStore.value.questionList = questionStore.value.questionList.map((q) => {
-          if (q.id === questionStore.value.curQuestion?.id) {
+        const originQ = questionStore.value.curQuestion
+        const newQ = { ...originQ, ...q }
+        questionStore.value.curQuestion = newQ
+        questionStore.value.questionList = questionStore.value.questionList.map((item) => {
+          if (item.id === questionStore.value.curQuestion?.id) {
             return questionStore.value.curQuestion
           }
-          return q
+          return item
         })
       },
       updateQuestionList: (qs) => {

@@ -8,6 +8,5 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ isModel, children }) =
     bg={isModel ? 'gray-100' : ''}
     p='y3 x2'
     cursor="pointer"
-    className=''
   >{children}</div>
 }

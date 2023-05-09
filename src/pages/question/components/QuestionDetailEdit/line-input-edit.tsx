@@ -37,7 +37,6 @@ export const LineInputEdit = () => {
       form={form}
       onFinish={onFinish}
       layout='vertical'
-
     >
       <Form.Item
         label="标题"

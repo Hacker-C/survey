@@ -2,7 +2,7 @@ import { Card, Typography } from 'antd'
 import { useSnapshot } from 'valtio'
 import { SEPERATOR } from '~/constant'
 import { questionStore, surveyStore } from '~/store'
-import { genComponent, generateRandomString } from '~/utils'
+import { genComponent } from '~/utils'
 
 export const LogicEdit = () => {
   const { curSurvey } = useSnapshot(surveyStore)
@@ -28,7 +28,13 @@ export const LogicEdit = () => {
           className='border-2 border-solid border-transparent question-border-hover my2'
           style={{ borderColor: curQuestion?.id === q.id ? '#1677ff' : '' }}
         >
-          <Component title={title} description={description} key={generateRandomString()} required={q.required} />
+          <Component
+            title={title}
+            description={description}
+            key={q.id}
+            required={q.required}
+            questionId={q.id}
+          />
         </div>
       })}
     </div>

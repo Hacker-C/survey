@@ -1,7 +1,7 @@
 import { Typography } from 'antd'
 import { useSnapshot } from 'valtio'
 import { AreaInput, LineInput, MultipleChoice, SingleChoice, TextView, TitleText, TitleView } from '../questions'
-import { questionStore, surveyStore } from '~/store'
+import { surveyStore } from '~/store'
 import { QuestionType, SEPERATOR } from '~/constant'
 import { saveQuestion } from '~/api'
 import { useMessage } from '~/hooks'
@@ -11,7 +11,6 @@ interface QuestionTemplateProps {
 }
 
 export const QuestionTemplate: React.FC<QuestionTemplateProps> = ({ onLoad }) => {
-  const { addQuestion } = questionStore
   const { curSurvey } = useSnapshot(surveyStore)
   const { error, contextHolder } = useMessage()
 

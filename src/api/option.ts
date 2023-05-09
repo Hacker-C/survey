@@ -1,4 +1,3 @@
-import type { IQuestion } from '~/interfaces'
 import { httpDelete, httpGet, httpPost, httpPut } from '~/utils'
 
 export interface IOption {
@@ -9,12 +8,16 @@ export interface IOption {
 
 /** 后台获取问题选项 */
 export const listOption = (params: {
-  pageNum: number
-  pageSize: number
+  pageNum?: number
+  pageSize?: number
   questionId: number
 }) => {
+  if (!params.pageNum || !params.pageSize) {
+    params.pageNum = 1
+    params.pageSize = 1000
+  }
   return httpGet<{
-    rows: IQuestion[]
+    rows: IOption[]
     total: number
   }>('/option', {
     params,
@@ -48,8 +51,8 @@ export interface updateOptionModal {
 }
 
 /** 删除选项 */
-export const deleteOption = () => {
-  return httpDelete<{}>('/option', {
+export const deleteOption = (id: number) => {
+  return httpDelete<{}>(`/option/${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
