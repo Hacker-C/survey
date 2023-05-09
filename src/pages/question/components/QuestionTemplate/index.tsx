@@ -114,17 +114,33 @@ export const QuestionTemplate: React.FC<QuestionTemplateProps> = ({ onLoad }) =>
       </span>
     </Typography.Title>
     <div className='question-border-hover mb2' onClick={() => {
-      addQuestion({
+      saveQuestion({
         type: QuestionType.SINGLE_CHOICE,
-        surveyId: curSurvey?.id as number
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '单选题标题'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
       })
     }}>
       <SingleChoice isModel={true} />
     </div>
     <div className='question-border-hover mb2' onClick={() => {
-      addQuestion({
+      saveQuestion({
         type: QuestionType.MULTIPLE_CHOICE,
-        surveyId: curSurvey?.id as number
+        surveyId: curSurvey?.id as number,
+        required: 1,
+        title: '多选题标题'
+      }).then((res) => {
+        if (res.code === 200) {
+          onLoad()
+        } else {
+          error(res.msg)
+        }
       })
     }}>
       <MultipleChoice isModel={true} />

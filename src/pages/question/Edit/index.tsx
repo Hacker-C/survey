@@ -15,11 +15,15 @@ import { getSurveyList, listQuestion } from '~/api'
 import { questionStore, surveyStore } from '~/store'
 
 export function QuestionEdit() {
-  const { curSurvey } = useSnapshot(surveyStore)
+  const { id } = useParams()
+  const nav = useNavigate()
+  if (!id) {
+    nav('/survey/list')
+  }
   const { refresh } = useRequest(() => listQuestion({
     pageNum: 1,
     pageSize: 200,
-    surveyId: curSurvey?.id as number
+    surveyId: +id!
   }), {
     onSuccess(res) {
       questionStore.updateQuestionList(res?.data?.rows ?? [])
