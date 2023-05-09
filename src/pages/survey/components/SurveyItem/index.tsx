@@ -13,7 +13,7 @@ interface SurveyItemProps {
 }
 
 export function SurveyItem({ survey, refresh }: SurveyItemProps) {
-  const { success, error, contextHolder } = useMessage()
+  const { success, error, warning, contextHolder } = useMessage()
   const nav = useNavigate()
   const { id, title, description, isLike, status, createTime, expireTime } = survey
 
@@ -95,7 +95,12 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
             <Button
               type='text'
               icon={<IIcon icon='iconoir:page-edit' className='mr2 text-sky-500' width='23' /> as any}
-              onClick={() => nav(`/question/edit/${id}`)}
+              onClick={() => {
+                if (survey.status === 1) {
+                  return warning('问卷已发布，请先撤销发布再编辑！')
+                }
+                nav(`/question/edit/${id}`)
+              }}
               className='mr4 survey-item-bottom'
             >
               设计问卷
@@ -146,6 +151,9 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               size='small'
               style={{
                 color: '#FBC02D'
+              }}
+              onClick={() => {
+                warning('功能开发中...')
               }}
               className='mr2 survey-item-bottom'
             >
