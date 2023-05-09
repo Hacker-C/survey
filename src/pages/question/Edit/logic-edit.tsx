@@ -6,7 +6,8 @@ import { genComponent, generateRandomString } from '~/utils'
 
 export const LogicEdit = () => {
   const { curSurvey } = useSnapshot(surveyStore)
-  const { questionList, updateCurQuestion, curQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { questionList, updateCurQuestion, curQuestion } = value
 
   return <Card className='w140'>
     <Typography.Title level={4} text='center'>{curSurvey?.title}</Typography.Title>

@@ -7,7 +7,8 @@ import { QuestionType } from '~/constant'
 import { questionStore } from '~/store'
 
 export const QuestionDetailEdit = () => {
-  const { curQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion } = value
   if (curQuestion?.type === QuestionType.TITLE_VIEW || curQuestion?.type === QuestionType.TEXT_VIEW) {
     return <TitleEdit />
   }

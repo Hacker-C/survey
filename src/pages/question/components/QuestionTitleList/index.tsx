@@ -7,7 +7,8 @@ import { SEPERATOR } from '~/constant'
 import type { IQuestion } from '~/interfaces'
 
 export const QuestionTitleList = () => {
-  const { curQuestion, updateCurQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion, updateCurQuestion } = value
 
   const { data: res } = useRequest(() => listQuestionTitleList(surveyStore.curSurvey?.id as number))
   return <>

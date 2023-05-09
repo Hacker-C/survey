@@ -9,7 +9,8 @@ import type { IQuestion } from '~/interfaces'
 
 export const LineInputEdit = () => {
   const { success, error, contextHolder } = useMessage()
-  const { curQuestion, updateCurQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion, updateCurQuestion } = value
   const { id: surveyId } = useParams()
   const [form] = Form.useForm()
   const onFinish = () => {
@@ -29,13 +30,14 @@ export const LineInputEdit = () => {
     })
   }
   useEffect(() => {
-  }, [])
+    form.setFieldsValue({ ...curQuestion, required: !!curQuestion?.required })
+  }, [curQuestion])
   return <div>
     <Form
       form={form}
       onFinish={onFinish}
       layout='vertical'
-      initialValues={{ ...curQuestion, required: !!curQuestion?.required }}
+
     >
       <Form.Item
         label="标题"

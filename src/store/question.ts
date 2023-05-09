@@ -1,8 +1,8 @@
-import { proxy, subscribe } from 'valtio'
-import { devtools } from 'valtio/utils'
+import { subscribe } from 'valtio'
+import { devtools, proxyWithHistory } from 'valtio/utils'
 import type { IQuestion } from '~/interfaces'
 
-export const questionStore = proxy<{
+export const questionStore = proxyWithHistory<{
   curQuestion: IQuestion | null // 当前编辑的问题
   questionList: IQuestion[] // 问题列表
   addQuestion: (q: Partial<IQuestion>) => void // 添加问题
@@ -13,30 +13,30 @@ export const questionStore = proxy<{
       curQuestion: null,
       questionList: [],
       addQuestion: (q) => {
-        const index = questionStore.curQuestion?.id ?? questionStore.questionList.length
-        questionStore.questionList.splice(index, 0, q as IQuestion)
+        const index = questionStore.value.curQuestion?.id ?? questionStore.value.questionList.length
+        questionStore.value.questionList.splice(index, 0, q as IQuestion)
       },
       updateCurQuestion: (q) => {
-        questionStore.curQuestion = q
-        questionStore.questionList = questionStore.questionList.map((q) => {
-          if (q.id === questionStore.curQuestion?.id) {
-            return questionStore.curQuestion
+        questionStore.value.curQuestion = q
+        questionStore.value.questionList = questionStore.value.questionList.map((q) => {
+          if (q.id === questionStore.value.curQuestion?.id) {
+            return questionStore.value.curQuestion
           }
           return q
         })
       },
       updateQuestionList: (qs) => {
-        questionStore.questionList = qs
+        questionStore.value.questionList = qs
       },
       deleteQuestion: (id) => {
-        const index = questionStore.questionList.findIndex(q => q.id === id)
-        questionStore.questionList.splice(index, 1)
+        const index = questionStore.value.questionList.findIndex(q => q.id === id)
+        questionStore.value.questionList.splice(index, 1)
       }
     })
 
 subscribe(questionStore, () => {
-  if (!questionStore.curQuestion?.type) {
-    questionStore.curQuestion = questionStore.questionList.find(q => q.id === questionStore.curQuestion?.id) ?? null
+  if (!questionStore.value.curQuestion?.type) {
+    questionStore.value.curQuestion = questionStore.value.questionList.find(q => q.id === questionStore.value.curQuestion?.id) ?? null
   }
 })
 

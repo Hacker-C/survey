@@ -1,6 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { useSnapshot } from 'valtio'
 import { useParams } from 'react-router'
+import { useEffect } from 'react'
 import { questionStore } from '~/store'
 import { updateQuestion } from '~/api'
 import { useMessage } from '~/hooks'
@@ -9,9 +10,13 @@ import { QuestionType } from '~/constant'
 
 export const TitleEdit = () => {
   const { success, error, contextHolder } = useMessage()
-  const { curQuestion, updateCurQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion, updateCurQuestion } = value
   const { id: surveyId } = useParams()
   const [form] = Form.useForm()
+  useEffect(() => {
+    form.setFieldsValue({ ...curQuestion, required: !!curQuestion?.required })
+  }, [curQuestion])
   const onFinish = () => {
     const params = {
       ...form.getFieldsValue(),

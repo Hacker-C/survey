@@ -26,7 +26,7 @@ export function QuestionEdit() {
     surveyId: +id!
   }), {
     onSuccess(res) {
-      questionStore.updateQuestionList(res?.data?.rows ?? [])
+      questionStore.value.updateQuestionList(res?.data?.rows ?? [])
     }
   })
 

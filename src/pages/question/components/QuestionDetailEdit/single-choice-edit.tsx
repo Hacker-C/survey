@@ -9,9 +9,13 @@ import type { IQuestion } from '~/interfaces'
 
 export const SingleChoiceEdit = () => {
   const { success, error, contextHolder } = useMessage()
-  const { curQuestion, updateCurQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion, updateCurQuestion } = value
   const { id: surveyId } = useParams()
   const [form] = Form.useForm()
+  useEffect(() => {
+    form.setFieldsValue({ ...curQuestion, required: !!curQuestion?.required })
+  }, [curQuestion])
   const onFinish = () => {
     const params = {
       ...form.getFieldsValue(),
@@ -28,8 +32,6 @@ export const SingleChoiceEdit = () => {
       }
     })
   }
-  useEffect(() => {
-  }, [])
   return <div>
     <Form
       form={form}

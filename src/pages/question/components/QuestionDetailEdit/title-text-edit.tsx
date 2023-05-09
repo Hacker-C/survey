@@ -1,6 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { useSnapshot } from 'valtio'
 import { useParams } from 'react-router'
+import { useEffect } from 'react'
 import { questionStore } from '~/store'
 import { updateQuestion } from '~/api'
 import { useMessage } from '~/hooks'
@@ -9,9 +10,14 @@ import { SEPERATOR } from '~/constant'
 
 export const TitleTextEdit = () => {
   const { success, error, contextHolder } = useMessage()
-  const { curQuestion, updateCurQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion, updateCurQuestion } = value
   const { id: surveyId } = useParams()
   const [form] = Form.useForm()
+  const [title, description] = curQuestion?.title.split(SEPERATOR) ?? []
+  useEffect(() => {
+    form.setFieldsValue({ title, description })
+  }, [curQuestion])
   const onFinish = () => {
     const params = {
       ...curQuestion,
@@ -27,7 +33,6 @@ export const TitleTextEdit = () => {
       }
     })
   }
-  const [title, description] = curQuestion?.title.split(SEPERATOR) ?? []
   return <div>
     <Form
       form={form}

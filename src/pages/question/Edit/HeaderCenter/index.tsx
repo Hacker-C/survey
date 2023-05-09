@@ -6,7 +6,8 @@ import { questionStore } from '~/store'
 import { useMessage } from '~/hooks'
 
 export const HeaderCenter = () => {
-  const { curQuestion } = useSnapshot(questionStore)
+  const { value } = useSnapshot(questionStore)
+  const { curQuestion } = value
   const { error, success, contextHolder } = useMessage()
 
   const handleDelete = () => {
@@ -14,11 +15,22 @@ export const HeaderCenter = () => {
     deleteQuestion(curQuestion.id).then((res) => {
       if (res.code === 200) {
         success('删除成功')
-        questionStore.deleteQuestion(curQuestion.id)
+        questionStore.value.deleteQuestion(curQuestion.id)
       } else {
         error(res.msg)
       }
     })
+  }
+
+  const undo = () => {
+    if (questionStore.history.index <= 2) return
+    // TODO 由于 React 严格模式，这里需要执行两次才能使得 DEV 模式下行为正常
+    questionStore.undo()
+  }
+
+  const redo = () => {
+    // TODO 由于 React 严格模式，这里需要执行两次才能使得 DEV 模式下行为正常
+    questionStore.redo()
   }
 
   return <div flex='' items='center'>
@@ -39,10 +51,10 @@ export const HeaderCenter = () => {
     <Button shape="circle" flex='center' m='r2'>
       <IIcon icon='mdi:arrow-down' />
     </Button>
-    <Button shape="circle" flex='center' m='r2'>
+    <Button shape="circle" flex='center' m='r2' onClick={undo}>
       <IIcon icon='ci:undo' />
     </Button>
-    <Button shape="circle" flex='center' m='r2'>
+    <Button shape="circle" flex='center' m='r2' onClick={redo}>
       <IIcon icon='ci:redo' />
     </Button>
     { contextHolder }
