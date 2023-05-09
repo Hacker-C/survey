@@ -1,6 +1,7 @@
 export * from './404'
 export * from './admin'
 export * from './admin/UserList'
+export * from './admin/AdminSurveyList'
 export * from './home'
 export * from './login'
 export * from './register'

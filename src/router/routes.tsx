@@ -11,6 +11,7 @@ const HomePage = LazyLoadComponent('HomePage')
 const SurveyPage = LazyLoadComponent('SurveyPage')
 const AdminPage = LazyLoadComponent('AdminPage')
 const UserList = LazyLoadComponent('UserList')
+const AdminSurveyList = LazyLoadComponent('AdminSurveyList')
 const Login = LazyLoadComponent('Login')
 const Register = LazyLoadComponent('Register')
 const NotFound = LazyLoadComponent('NotFound')
@@ -131,7 +132,7 @@ export const routes: RouterConfig[] = [
       },
       {
         path: 'survey',
-        element: <div>survey list</div>,
+        element: <AdminSurveyList />,
         meta: {
           isAuth: true,
           requireRoles: ['admin'],
