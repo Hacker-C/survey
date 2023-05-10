@@ -21,6 +21,11 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
   const [like, seLike] = useState(isLike)
   const [statu, seStatu] = useState(status)
 
+  // FEAT 统计分析
+  const goAnalysisAnswer = () => {
+    nav(`/question/stat/${id}`)
+  }
+
   // FEAT 发送问卷
   const [open, setOpen] = useState(false)
   const sendSurveyLink = () => {
@@ -130,6 +135,9 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               type='text'
               className='mr4 survey-item-bottom'
               icon={<IIcon icon='ic:round-pie-chart' className='mr2 text-purple-500' width='23' /> as any}
+              onClick={() => {
+                goAnalysisAnswer()
+              }}
             >
               统计分析
             </Button>

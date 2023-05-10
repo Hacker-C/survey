@@ -16,9 +16,32 @@ export interface IAnswer {
 
 /** 问卷分析 */
 export const analysisAnswer = (id: number) => {
-  return httpGet<any>(`/answer/${id}`, {
+  return httpGet<IAnalysisAnswer>(`/answer/${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
+}
+
+export interface IAnalysisAnswer {
+  description: string
+  expireTime: string
+  nickname: string
+  questions: AQuestion[]
+  title: string
+  total: number
+}
+
+export interface AQuestion {
+  options: AOption[]
+  required: number
+  sort: number
+  title: string
+  type: number
+}
+
+export interface AOption {
+  content: string
+  number: number
+  percent: number
 }

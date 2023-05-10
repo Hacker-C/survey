@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { QuestionType } from '~/constant'
 
 export type Prettify<T> = {
   [P in keyof T]: T[P]
@@ -16,4 +17,13 @@ export function generateRandomString(): string {
     result += characters.charAt(Math.floor(Math.random() * characters.length))
   }
   return result
+}
+
+/** 过滤掉标题文本题目 */
+export const filterQuestions = (questions: any[]) => {
+  return questions.filter(item => ![
+    QuestionType.TITLE_VIEW,
+    QuestionType.TEXT_VIEW,
+    QuestionType.TITLE_TEXT_VIEW
+  ].includes(item.type))
 }

@@ -16,7 +16,7 @@ export const SurveyFill = () => {
     return <>
       <div className='flex justify-center'>
         <Typography.Text text='lg primary' m='t15'>
-          您的答卷已经提交，感谢您的参与！
+          { res?.msg?.includes('用户已填写') ? '您的答卷已经提交，感谢您的参与！' : '该问卷暂未发布！' }
         </Typography.Text>
       </div>
       <Footer />

@@ -71,6 +71,11 @@ export default defineConfig({
       }
     ],
     [
+      'min-stat-h', {
+        'min-height': 'calc(100vh - 70px)'
+      }
+    ],
+    [
       'min-types-h', {
         height: 'calc(100vh - 105px)'
       }
@@ -108,6 +113,11 @@ export default defineConfig({
     [
       'preview-h', {
         height: 'calc(100vh - 90px)'
+      }
+    ],
+    [
+      'shadow-box', {
+        'box-shadow': 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
       }
     ]
   ],

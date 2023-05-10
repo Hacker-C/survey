@@ -101,7 +101,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
         size='large'
         onClick={() => {
           if (loc.pathname.startsWith('/question/preview')) {
-            warning('预览状态下不可提交！')
+            return warning('预览状态下不可提交！')
           }
           submit()
         }}
