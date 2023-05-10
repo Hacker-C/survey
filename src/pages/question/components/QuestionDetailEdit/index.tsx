@@ -21,5 +21,5 @@ export const QuestionDetailEdit = () => {
   if (curQuestion?.type === QuestionType.SINGLE_CHOICE || curQuestion?.type === QuestionType.MULTIPLE_CHOICE) {
     return <SingleChoiceEdit/>
   }
-  return <>other</>
+  return <></>
 }

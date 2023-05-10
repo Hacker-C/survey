@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks'
 import { useSnapshot } from 'valtio'
 import type { IOption } from '~/interfaces'
 import { QuestionBox } from '~/components/QuestionBox'
+import type { IAnswer } from '~/api'
 import { listOption } from '~/api'
 import { optionStore } from '~/store'
 
@@ -26,6 +27,7 @@ const options: IOption[] = [
 ]
 
 interface SingleChoiceProps {
+  onUpdate?: (questionId: number, p: IAnswer[]) => void
   title?: string
   options?: IOption[]
   vertical?: boolean
@@ -39,25 +41,33 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   vertical = false,
   required = 1,
   isModel = false,
-  questionId
+  questionId,
+  onUpdate
 }) => {
   const { curOptions } = useSnapshot(optionStore)
-  const [checkedList, setCheckedList] = useState<string[]>([])
+  const [checkedList, setCheckedList] = useState<IOption[]>([])
 
-  const updateCheckedList = (item: string) => {
+  const updateCheckedList = (item: IOption) => {
     setCheckedList((list) => {
       const newList = [...list]
-      if (newList.includes(item)) {
-        const index = newList.indexOf(item)
+      if (newList.some(op => op.id === item.id)) {
+        const index = newList.findIndex(op => op.id === item.id)
         newList.splice(index, 1)
       } else {
         newList.push(item)
       }
+      onUpdate?.(questionId, newList.map((op) => {
+        return {
+          questionId,
+          optionId: op.id,
+          content: op.content
+        } as IAnswer
+      }))
       return newList
     })
   }
 
-  const handleCheckboxChange = (item: string) => {
+  const handleCheckboxChange = (item: IOption) => {
     updateCheckedList(item)
   }
 
@@ -73,7 +83,7 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
     !isModel && optionStore.updateCurOptions(res?.data?.rows as IOption[])
   }}>
     <QuestionBox isModel={isModel}>
-      <Typography.Title level={5} className={required ? 'requred-tip ' : ''}>{title}</Typography.Title>
+      <Typography.Text className={required ? 'requred-tip ' : ''}>{title}</Typography.Text>
       <Space
         direction={vertical ? 'vertical' : 'horizontal'}
         className={vertical ? '' : 'flex flex-wrap'}
@@ -82,7 +92,7 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
           localOptions.map((option) => {
             return <Checkbox
               key={option.id}
-              onChange={() => handleCheckboxChange(option.content)}
+              onChange={() => handleCheckboxChange(option)}
               onClick={e => e.stopPropagation()}
             >
               {option.content}

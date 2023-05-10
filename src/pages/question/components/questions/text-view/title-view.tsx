@@ -9,6 +9,6 @@ interface TitleViewProps {
 
 export const TitleView: React.FC<TitleViewProps> = ({ title = '标题', isModel = false }) => {
   return <QuestionBox isModel={isModel}>
-    <Typography.Title level={4} >{ title }</Typography.Title>
+    <Typography.Title level={5} >{ title }</Typography.Title>
   </QuestionBox>
 }

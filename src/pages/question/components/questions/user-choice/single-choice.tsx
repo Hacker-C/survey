@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks'
 import { useSnapshot } from 'valtio'
 import type { IOption } from '~/interfaces'
 import { QuestionBox } from '~/components/QuestionBox'
+import type { IAnswer } from '~/api'
 import { listOption } from '~/api'
 import { optionStore } from '~/store'
 
@@ -15,6 +16,7 @@ interface SingleChoiceProps {
   required?: number
   isModel?: boolean
   questionId?: number
+  onUpdate?: (x: IAnswer) => void
 }
 
 const defaultOptions: IOption[] = [
@@ -35,10 +37,10 @@ const defaultOptions: IOption[] = [
   }
 ]
 
-export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题', vertical = false, required = 1, isModel = false, options = defaultOptions, questionId }) => {
-  const [value, setValue] = useState(1)
+export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题', vertical = false, required = 1, isModel = false, options = defaultOptions, questionId, onUpdate }) => {
   const { curOptions } = useSnapshot(optionStore)
 
+  const [value, setValue] = useState()
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value)
   }
@@ -55,12 +57,25 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题',
     !isModel && optionStore.updateCurOptions(res?.data?.rows as IOption[])
   }}>
     <QuestionBox isModel={isModel}>
-      <Typography.Title level={5} className={required ? 'requred-tip ' : ''}>{title}</Typography.Title>
+      <Typography.Text className={required ? 'requred-tip ' : ''}>{title}</Typography.Text>
+      <br/>
       <Radio.Group onChange={onChange} value={value}>
-        <Space direction={vertical ? 'vertical' : 'horizontal'}>
+        <Space
+          direction={vertical ? 'vertical' : 'horizontal'}
+          className={vertical ? '' : 'flex flex-wrap'}
+        >
           {
             localOptions?.map((option) => {
-              return <Radio onClick={e => e.stopPropagation()} key={option.id} value={option.content}>{option.content}</Radio>
+              return <Radio
+                key={option.id}
+                value={option.content}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onUpdate?.({ optionId: option.id, content: option.content, questionId: questionId as number })
+                }}
+              >
+                  {option.content}
+              </Radio>
             })
           }
         </Space>

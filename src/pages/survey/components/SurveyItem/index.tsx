@@ -1,6 +1,7 @@
-import { Button, Card, Popconfirm, Tag } from 'antd'
+import { Button, Card, Modal, Popconfirm, Tag } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LinkSend } from './link-send'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
@@ -20,7 +21,16 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
   const [like, seLike] = useState(isLike)
   const [statu, seStatu] = useState(status)
 
-  /** 收藏问卷 */
+  // FEAT 发送问卷
+  const [open, setOpen] = useState(false)
+  const sendSurveyLink = () => {
+    if (status === 0) {
+      return warning('问卷未发布，无法发送')
+    }
+    setOpen(true)
+  }
+
+  // FEAT 收藏问卷
   const onLike = () => {
     updateSurveyLike(id, like === 0 ? 1 : 0)
       .then((res) => {
@@ -37,7 +47,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
       })
   }
 
-  /** 发布问卷 */
+  // FEAT 发布问卷
   const onPublic = () => {
     const fn = statu === 0 ? makePublic : cancelPublic
     fn(id)
@@ -45,6 +55,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         if (res.code === 200) {
           seStatu(statu === 0 ? 1 : 0)
           success(statu === 0 ? '成功发布问卷' : '已撤销发布')
+          refresh?.()
         } else {
           error(res.msg)
         }
@@ -53,7 +64,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
       })
   }
 
-  /** 放入回收站 */
+  // FEAT 放入回收站
   const onAddRecycle = () => {
     addRecycle(id)
       .then((res) => {
@@ -109,6 +120,9 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               type='text'
               icon={<IIcon icon='mingcute:send-plane-line' className='mr2 text-orange-500' width='23' /> as any}
               className='mr4 survey-item-bottom'
+              onClick={() => {
+                sendSurveyLink()
+              }}
             >
               发送问卷
             </Button>
@@ -182,6 +196,16 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
           </div>
         </div>
       </Card>
+
+      <Modal
+        title="问卷链接"
+        open={open}
+        onCancel={() => setOpen(false)}
+        footer={null}
+      >
+        <LinkSend id={id}/>
+      </Modal>
+
       {contextHolder}
     </>
   )

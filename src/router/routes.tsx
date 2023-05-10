@@ -22,6 +22,8 @@ const SurveyStar = LazyLoadComponent('SurveyStar')
 const SurveyTrash = LazyLoadComponent('SurveyTrash')
 const QuestionEdit = LazyLoadComponent('QuestionEdit')
 const QuestionStat = LazyLoadComponent('QuestionStat')
+const QuestionPreview = LazyLoadComponent('QuestionPreview')
+const SurveyFill = LazyLoadComponent('SurveyFill')
 
 export interface RouterConfig {
   path: string
@@ -166,6 +168,23 @@ export const routes: RouterConfig[] = [
       isAuth: true,
       requireRoles: ['user'],
       title: '问卷统计'
+    }
+  },
+  {
+    path: '/question/preview/:id',
+    element: <QuestionPreview />,
+    meta: {
+      isAuth: true,
+      requireRoles: ['user'],
+      title: '问卷预览'
+    }
+  },
+  {
+    path: '/sv/:id',
+    element: <SurveyFill />,
+    meta: {
+      isAuth: false,
+      title: '问卷回答'
     }
   },
   {

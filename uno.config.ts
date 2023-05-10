@@ -29,6 +29,7 @@ export default defineConfig({
     colors: {
       primary: '#1677ff', // 主题色
       secondary: '#1E88E5', // 次要色
+      thirdary: '#0095ff', // 次次要色
       footer: '#2b3137', // 主页底部色
       dark: '#001529', // 暗黑模式色
       darktext: 'rgba(255, 255, 255, 0.8)', // 暗黑模式文字色
@@ -55,7 +56,7 @@ export default defineConfig({
     'survey-item-bottom': 'flex items-center text-base theme-duration dark:(text-darktext hover:(text-primary))',
     'h-sreen': 'h-[100vh]',
     'wh-sreen': 'w-[100vw] h-[100vh]',
-    'requred-tip': 'after:(content-["*"] ml1 text-red-500)',
+    'requred-tip': 'before:(content-["*"] mr1 text-red-500)',
     'question-border-hover': 'border-2 border-solid border-transparent hover:border-primary'
   },
   rules: [
@@ -98,10 +99,21 @@ export default defineConfig({
       'hover-box', {
         'box-shadow': 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
       }
+    ],
+    [
+      'preview-h-container', {
+        height: 'calc(100vh - 70px)'
+      }
+    ],
+    [
+      'preview-h', {
+        height: 'calc(100vh - 90px)'
+      }
     ]
   ],
   safelist: [
     'ml',
-    'border'
+    'border',
+    'w'
   ]
 })

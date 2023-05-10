@@ -10,7 +10,7 @@ interface TitleTextProps {
 
 export const TitleText: React.FC<TitleTextProps> = ({ title = '标题', description = '描述信息...', isModel = false }) => {
   return <QuestionBox isModel={isModel}>
-    <Typography.Title level={4}>{ title }</Typography.Title>
+    <Typography.Title level={5}>{ title }</Typography.Title>
     <Typography.Text>{ description }</Typography.Text>
   </QuestionBox>
 }

@@ -152,12 +152,21 @@ function HeaderLeft() {
 }
 
 function HeaderRight() {
+  const nav = useNavigate()
+  const { id } = useParams()
   return (
     <div p='x5' flex='center'>
-      <Button m='r2'>保存</Button>
-      <Button type='primary' flex='center'>
-        <IIcon icon='mingcute:send-plane-fill' className='mr1' />
-        发布
+      <Button m='r2' flex='center' onClick={() => {
+        nav(`/question/preview/${id}`)
+      }}>
+        <IIcon icon='icon-park-outline:preview-open' className='mr1' />
+        预览
+      </Button>
+      <Button type='primary' flex='center' onClick={() => {
+        nav(-1)
+      }}>
+        <IIcon icon='icons8:finish-flag' className='mr1' />
+        完成编辑
       </Button>
     </div>
   )

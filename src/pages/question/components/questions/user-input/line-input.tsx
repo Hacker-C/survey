@@ -1,17 +1,26 @@
 import React from 'react'
 import { Input, Typography } from 'antd'
 import { QuestionBox } from '~/components/QuestionBox'
+import type { IAnswer } from '~/api'
 
 interface LineInputProps {
   title?: string
   placeholder?: string
   required?: boolean
   isModel?: boolean
+  onUpdate?: (x: IAnswer) => void
+  questionId: number
 }
 
-export const LineInput: React.FC<LineInputProps> = ({ title = '标题', placeholder = '输入一行内容...', required = true, isModel = false }) => {
+export const LineInput: React.FC<LineInputProps> = ({ title = '标题', placeholder = '输入一行内容...', required = true, isModel = false, onUpdate, questionId }) => {
   return <QuestionBox isModel={isModel}>
-    <Typography.Title level={5} className={ required ? 'requred-tip' : ''}>{ title }</Typography.Title>
-    <Input type="text" placeholder={placeholder}/>
+    <Typography.Text className={ required ? 'requred-tip' : ''}>{ title }</Typography.Text>
+    <Input type="text" placeholder={placeholder} onInput={(e) => {
+      const content = e.currentTarget.value
+      onUpdate?.({
+        content,
+        questionId
+      } as IAnswer)
+    }}/>
   </QuestionBox>
 }
