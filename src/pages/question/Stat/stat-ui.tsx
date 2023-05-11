@@ -47,6 +47,7 @@ const columns: ColumnsType<AOption> = [
 
 export const StatUI: React.FC<StatUIProps> = ({ stats, type }) => {
   if ([QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE].includes(type)) {
+    stats.sort((a, b) => b.number - a.number)
     return <Table
       bordered
       columns={columns}
@@ -55,9 +56,23 @@ export const StatUI: React.FC<StatUIProps> = ({ stats, type }) => {
       className='mt3 mb6'
     />
   }
-  return <div>
-    { stats.map((op) => {
-      return <div key={op.content}>{ op.content }</div>
-    }) }
-  </div>
+  return <Table
+    bordered
+    dataSource={stats.map((op, idx) => ({ index: idx + 1, content: op.content }))}
+    columns={[
+      {
+        title: '序号',
+        key: 'index',
+        dataIndex: 'index',
+        width: '100px'
+      },
+      {
+        title: '内容',
+        key: 'content',
+        dataIndex: 'content'
+      }
+    ]}
+    pagination={{ position: ['none', 'none'] as any }}
+    className='mt3 mb6'
+  />
 }

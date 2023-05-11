@@ -123,7 +123,7 @@ export const SingleChoiceEdit = () => {
   </div>
 }
 
-const EditableOption = ({ option }: { option: IOption }) => {
+function EditableOption({ option }: { option: IOption }) {
   const { error, contextHolder } = useMessage()
   const { value } = useSnapshot(questionStore)
 

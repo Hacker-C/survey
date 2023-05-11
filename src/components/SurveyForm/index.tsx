@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router'
+import { useLocation } from 'react-router'
 import { Button, Typography } from 'antd'
 import React, { useRef, useState } from 'react'
 import type { IAnswer } from '~/api'
@@ -14,7 +14,6 @@ interface SurveyFormProps {
 }
 
 export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => {
-  const { id } = useParams()
   const loc = useLocation()
   const { success, error, warning, contextHolder } = useMessage()
 

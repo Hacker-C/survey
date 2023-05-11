@@ -47,6 +47,7 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   idx
 }) => {
   const { curOptions } = useSnapshot(optionStore)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [checkedList, setCheckedList] = useState<IOption[]>([])
 
   const updateCheckedList = (item: IOption) => {
@@ -58,7 +59,7 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
       } else {
         newList.push(item)
       }
-      onUpdate?.(questionId, newList.map((op) => {
+      onUpdate?.(questionId as number, newList.map((op) => {
         return {
           questionId,
           optionId: op.id,

@@ -27,3 +27,13 @@ export const filterQuestions = (questions: any[]) => {
     QuestionType.TITLE_TEXT_VIEW
   ].includes(item.type))
 }
+
+/**  根据 type 返回问题描述 */
+export const getDescriptionByType = (type: QuestionType) => {
+  return new Map([
+    [QuestionType.SINGLE_CHOICE, '单选题'],
+    [QuestionType.MULTIPLE_CHOICE, '多选题'],
+    [QuestionType.LINE_INPUT, '单行输入题'],
+    [QuestionType.AREA_INPUT, '多行输入题']
+  ]).get(type) ?? '其他题型'
+}

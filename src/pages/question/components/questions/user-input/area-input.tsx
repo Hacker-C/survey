@@ -13,7 +13,7 @@ interface AreaInputProps {
   idx?: number
 }
 
-export const AreaInput: React.FC<AreaInputProps> = ({ title = '标题', placeholder = '输入一段内容...', required = true, isModel = false, onUpdate, questionId,idx }) => {
+export const AreaInput: React.FC<AreaInputProps> = ({ title = '标题', placeholder = '输入一段内容...', required = true, isModel = false, onUpdate, questionId, idx }) => {
   return <QuestionBox isModel={isModel}>
     <Typography.Text className={ required ? 'requred-tip' : ''}>{idx}. { title }</Typography.Text>
     <Input.TextArea placeholder={placeholder} onInput={(e) => {
