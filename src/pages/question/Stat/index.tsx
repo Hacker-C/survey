@@ -22,7 +22,7 @@ export function QuestionStat() {
     <div bg='#f7f7f7' className='min-h-70px flex justify-center pb10'>
       {
         loading
-          ? <Spin spinning={loading} className='mt70'/>
+          ? <Spin spinning={loading} className='mt70' />
           : <div className='shadow-box bg-white w-[900px] mt10 rounded px10 py5'>
             <Descriptions
               title={<Typography.Title level={5}>问卷基本信息</Typography.Title>}
@@ -41,11 +41,12 @@ export function QuestionStat() {
             </div>
             <div>
               {questions.map((q, idx) => {
+                const questionDescription = getDescriptionByType(q.type)
                 return <div key={q.title}>
                   <Typography.Text text='base'>
-                    第 {idx + 1} 题：{q.title} 【{getDescriptionByType(q.type)}】
+                    第 {idx + 1} 题：{q.title} 【{questionDescription}】
                   </Typography.Text>
-                  <StatUI stats={q.options} type={q.type} />
+                  <StatUI stats={q.options} type={q.type} title={q.title} subtitle={questionDescription} />
                 </div>
               })}
             </div>
