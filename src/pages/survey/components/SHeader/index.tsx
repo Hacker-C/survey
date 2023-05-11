@@ -1,9 +1,10 @@
 import type { MenuProps } from 'antd'
 import { Avatar, Dropdown } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useRequest } from 'ahooks'
 import { useSnapshot } from 'valtio'
+import screenfull from 'screenfull'
 import { getUserProfile, logout } from '~/api'
 import { IIcon } from '~/components/IIcon'
 import { menuStore, profileStore, themeStore, userStore } from '~/store'
@@ -93,13 +94,25 @@ function HeaderRight() {
     }
   ]
 
+  const [isFull, setFull] = useState(false)
+
   return (
     <>
-      { contextHolder }
+      <IIcon
+        icon={isFull ? 'material-symbols:fullscreen-exit' : 'material-symbols:fullscreen'}
+        className='cursor-pointer mr4'
+        width='28'
+        onClick={() => {
+          setFull(f => !f)
+          if (screenfull.isEnabled) {
+            screenfull.toggle()
+          }
+        }}
+      />
       <IIcon
         icon={theme === 'light' ? 'ph:moon' : 'ph:sun'}
         onClick={toggleDark}
-        className='cursor-pointer mr4'
+        className='cursor-pointer mr4 hidden'
       />
       <Dropdown menu={{ items }}>
         <a onClick={e => e.preventDefault()} className='flex-center'>
@@ -109,10 +122,10 @@ function HeaderRight() {
             src={profile?.avatar}
             className='flex-center'
           />
-          <div ml='2'>Hello, { profile?.nickname }</div>
+          <div ml='2'>Hello, {profile?.nickname}</div>
         </a>
       </Dropdown>
+      {contextHolder}
     </>
-
   )
 }
