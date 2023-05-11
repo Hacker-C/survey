@@ -47,6 +47,7 @@ export default defineConfig({
     }
   },
   shortcuts: {
+    'home-bg': 'bg-no-repeat bg-cover bg-center bg-[url(\'./src/assets/images/home-bg.jpg\')]',
     'pos-center': 'relative left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]',
     'pos-center-x': 'relative left-[50%] -translate-x-[50%]',
     'pos-center-y': 'relative top-[50%] -translate-y-[50%]',

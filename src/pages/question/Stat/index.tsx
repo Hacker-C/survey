@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router'
 import { useRequest } from 'ahooks'
-import { Descriptions, Spin, Typography } from 'antd'
+import { Descriptions, Empty, Spin, Typography } from 'antd'
 import { StatUI } from './stat-ui'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
@@ -39,17 +39,22 @@ export function QuestionStat() {
             <div m='t5 b5'>
               <Typography.Title level={5}>统计结果</Typography.Title>
             </div>
-            <div>
-              {questions.map((q, idx) => {
-                const questionDescription = getDescriptionByType(q.type)
-                return <div key={q.title}>
-                  <Typography.Text text='base'>
-                    第 {idx + 1} 题：{q.title} 【{questionDescription}】
-                  </Typography.Text>
-                  <StatUI stats={q.options} type={q.type} title={q.title} subtitle={questionDescription} />
+            {
+              res?.data?.total === 0
+                ? <Empty description='暂无答卷'/>
+                : <div>
+                  {questions.map((q, idx) => {
+                    const questionDescription = getDescriptionByType(q.type)
+                    return <div key={q.title}>
+                      <Typography.Text text='base'>
+                        第 {idx + 1} 题：{q.title} 【{questionDescription}】
+                      </Typography.Text>
+                      <StatUI stats={q.options} type={q.type} title={q.title} subtitle={questionDescription} />
+                    </div>
+                  })}
                 </div>
-              })}
-            </div>
+            }
+
           </div>
       }
     </div>

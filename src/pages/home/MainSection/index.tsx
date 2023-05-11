@@ -10,7 +10,7 @@ export function MainSection() {
   const { role } = useSnapshot(userStore)
 
   return (
-    <>
+    <div className='home-bg'>
       <div className='flex items-center'>
         <div className='w50'>
           <LogoLeft />
@@ -29,8 +29,8 @@ export function MainSection() {
         className='min-h-80px flex'
         flex='col justify-center items-center'
       >
-        <Title level={1} font='deyihei'>在线调查问卷系统</Title>
-        <Paragraph font='deyihei' text='xl'>
+        <Title level={1} font='deyihei'><span text='white'>在线调查问卷系统</span></Title>
+        <Paragraph font='deyihei' text='xl white'>
           简单、快速、有趣——马上创建您的第一份调查问卷，以更深入了解您的调查对象。(*^_^*)
         </Paragraph>
         <div>
@@ -39,6 +39,6 @@ export function MainSection() {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -4,10 +4,14 @@ const { Title, Text } = Typography
 
 export function FooterSection() {
   return (
-    <>
+    <div className=''>
       <div className="h-[80vh] flex flex-col justify-center items-center">
-        <Title font='deyihei'>只需 4 步，轻松得到你的答案</Title>
-        <Text m='y5' text='xl' font='deyihei'>创建、编辑、投放、回收，问卷调查轻松简单</Text>
+        <Title font='deyihei'>
+          <span text=''>只需 4 步，轻松得到你的答案</span>
+        </Title>
+        <Text m='y5' text='xl' font='deyihei'>
+          <span text='xl'>创建、编辑、投放、回收，问卷调查轻松简单</span>
+        </Text>
         <div>
           {
             ['创建问卷', '编辑问卷', '投放问卷', '回收问卷'].map((item, index) => (
@@ -17,8 +21,8 @@ export function FooterSection() {
         </div>
       </div>
       <div text='white base' className='h-[20vh] bg-footer flex-center'>
-        在线问卷系统 Copyright &copy; 2023 Built with React, by ChenGui
+        在线问卷调查系统 Copyright &copy; 2023 Built with React, by ChenGui
       </div>
-    </>
+    </div>
   )
 }
