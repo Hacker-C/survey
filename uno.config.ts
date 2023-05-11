@@ -60,59 +60,19 @@ export default defineConfig({
     'question-border-hover': 'border-2 border-solid border-transparent hover:border-primary'
   },
   rules: [
-    [
-      'content-h', {
-        'min-height': 'calc(100vh - 160px)'
+    [/^min-h-(\d+)px$/, ([, h]) => {
+      return {
+        'min-height': `calc(100vh - ${h}px)`
       }
-    ],
-    [
-      'min-section-h', {
-        'min-height': 'calc(100vh - 80px)'
+    }],
+    [/^fixed-h-(\d+)px$/, ([, h]) => {
+      return {
+        height: `calc(100vh - ${h}px)`
       }
-    ],
-    [
-      'min-stat-h', {
-        'min-height': 'calc(100vh - 70px)'
-      }
-    ],
-    [
-      'min-types-h', {
-        height: 'calc(100vh - 105px)'
-      }
-    ],
-    [
-      'min-questions-h', {
-        height: 'calc(100vh - 200px)'
-      }
-    ],
-    [
-      'min-content-h', {
-        'min-height': 'calc(100vh - 120px)'
-      }
-    ],
-    [
-      'min-actions-h', {
-        'min-height': 'calc(100vh - 65px)'
-      }
-    ],
-    [
-      'min-app-h', {
-        'min-height': '100vh'
-      }
-    ],
+    }],
     [
       'hover-box', {
         'box-shadow': 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
-      }
-    ],
-    [
-      'preview-h-container', {
-        height: 'calc(100vh - 70px)'
-      }
-    ],
-    [
-      'preview-h', {
-        height: 'calc(100vh - 90px)'
       }
     ],
     [

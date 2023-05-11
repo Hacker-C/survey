@@ -19,7 +19,7 @@ export function QuestionStat() {
     HeaderCenter={<HeaderCenter title={res?.data?.title as string} />}
     HeaderRight={<HeaderRight />}
   >
-    <div bg='#f7f7f7' className='min-stat-h flex justify-center'>
+    <div bg='#f7f7f7' className='min-h-70px flex justify-center pb10'>
       <div className='shadow-box bg-white w-[900px] mt10 rounded px10 py5'>
         <Descriptions
           title={<Typography.Title level={5}>问卷基本信息</Typography.Title>}

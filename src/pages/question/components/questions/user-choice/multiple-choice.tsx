@@ -34,6 +34,7 @@ interface SingleChoiceProps {
   required?: number
   isModel?: boolean
   questionId?: number
+  idx?: number
 }
 
 export const MultipleChoice: React.FC<SingleChoiceProps> = ({
@@ -42,7 +43,8 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   required = 1,
   isModel = false,
   questionId,
-  onUpdate
+  onUpdate,
+  idx
 }) => {
   const { curOptions } = useSnapshot(optionStore)
   const [checkedList, setCheckedList] = useState<IOption[]>([])
@@ -83,7 +85,7 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
     !isModel && optionStore.updateCurOptions(res?.data?.rows as IOption[])
   }}>
     <QuestionBox isModel={isModel}>
-      <Typography.Text className={required ? 'requred-tip ' : ''}>{title}</Typography.Text>
+      <Typography.Text className={required ? 'requred-tip ' : ''}>{idx}. {title}</Typography.Text>
       <Space
         direction={vertical ? 'vertical' : 'horizontal'}
         className={vertical ? '' : 'flex flex-wrap'}

@@ -14,7 +14,7 @@ export const QuestionTemplate: React.FC<QuestionTemplateProps> = ({ onLoad }) =>
   const { curSurvey } = useSnapshot(surveyStore)
   const { error, contextHolder } = useMessage()
 
-  return <div className='overflow-y-scroll min-questions-h'>
+  return <div className='overflow-y-scroll fixed-h-200px'>
 
     <Typography.Title level={5}>
       <span text='primary'>文本显示类</span>

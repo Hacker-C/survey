@@ -48,7 +48,6 @@ export function SurveyCreate() {
         <Form
           form={form}
           layout='vertical'
-          size='large'
         >
           <Form.Item
             label={<span text='base' className='dark:text-white'>请输入问卷标题</span>}
@@ -77,7 +76,7 @@ export function SurveyCreate() {
             }}/>
           </Form.Item>
           <Form.Item>
-            <Button type='primary' onClick={onSave} size='large' loading={loading}>立即创建</Button>
+            <Button type='primary' onClick={onSave} loading={loading} w='100%'>立即创建</Button>
           </Form.Item>
         </Form>
       </Card>

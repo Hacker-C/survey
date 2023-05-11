@@ -69,7 +69,7 @@ export function QuestionEdit() {
     tab2: <QuestionTitleList />
   }
   const contentList2: Record<string, React.ReactNode> = {
-    tab1: <div className='overflow-y-scroll min-questions-h'><QuestionDetailEdit /></div>,
+    tab1: <div className='overflow-y-scroll fixed-h-200px'><QuestionDetailEdit /></div>,
     tab2: <SurveyEdit />
   }
   const [activeTabKey1, setActiveTabKey1] = useState<string>('tab1')
@@ -88,13 +88,13 @@ export function QuestionEdit() {
         HeaderCenter={<HeaderCenter />}
         HeaderRight={<HeaderRight />}
       >
-        <div p='5' bg='lightbg' flex='' className='min-actions-h'>
+        <div p='5' bg='lightbg' flex='' className='min-h-65px'>
           <div className=''>
             <Card
               tabList={tabList1}
               activeTabKey={activeTabKey1}
               onTabChange={onTab1Change}
-              className='w70 min-types-h fixed'
+              className='w70 fixed-h-105px fixed'
             >
                {contentList1[activeTabKey1]}
             </Card>
@@ -107,7 +107,7 @@ export function QuestionEdit() {
               tabList={tabList2}
               activeTabKey={activeTabKey2}
               onTabChange={onTab2Change}
-              className='w80 min-types-h fixed right-5'
+              className='w80 fixed-h-105px fixed right-5'
             >
               {contentList2[activeTabKey2]}
             </Card>

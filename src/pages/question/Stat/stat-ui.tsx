@@ -51,8 +51,13 @@ export const StatUI: React.FC<StatUIProps> = ({ stats, type }) => {
       bordered
       columns={columns}
       dataSource={stats}
-      pagination={{ position: ['none', 'none'] }}
+      pagination={{ position: ['none', 'none'] as any }}
       className='mt3 mb6'
     />
   }
+  return <div>
+    { stats.map((op) => {
+      return <div key={op.content}>{ op.content }</div>
+    }) }
+  </div>
 }

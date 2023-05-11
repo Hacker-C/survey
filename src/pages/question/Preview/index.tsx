@@ -23,9 +23,9 @@ export const QuestionPreview = () => {
     HeaderCenter={<HeaderCenter updateWidth={setW}/>}
     HeaderRight={<HeaderRight />}
   >
-    <div bg='[#f5f5f5]' className='preview-h-container flex justify-center'>
+    <div bg='[#f5f5f5]' className='fixed-h-70px flex justify-center'>
       <div
-        className='bg-white fixed preview-h overflow-y-scroll no-scrollbar mt-[10px] preview-box rounded'
+        className='bg-white fixed fixed-h-90px overflow-y-scroll no-scrollbar mt-[10px] preview-box rounded'
         p={ w <= 375 ? '5' : '10' }
         style={{
           width: `${w}px`

@@ -69,6 +69,8 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
     })
   }
 
+  let idx = 0
+
   return <div>
     <Typography.Title level={4} text='center'>
       <span text='primary'>
@@ -84,11 +86,15 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
       {survey?.questions.map((q) => {
         const Component = genComponent(q.type) ?? (<></>) as any
         const [title, description] = q.title.split(SEPERATOR)
+        if (![QuestionType.TEXT_VIEW, QuestionType.TEXT_VIEW, QuestionType.TITLE_TEXT_VIEW].includes(q.type)) {
+          idx++
+        }
         return <Component
           onUpdate={q.type === QuestionType.MULTIPLE_CHOICE ? onMultiAnswersUpdate : onSingleAnswersUpdate}
           title={title}
           description={description}
           key={q.id}
+          idx={idx}
           required={q.required}
           questionId={q.id}
         />

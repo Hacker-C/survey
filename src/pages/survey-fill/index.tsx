@@ -24,7 +24,7 @@ export const SurveyFill = () => {
   }
   if (res?.code === 200) {
     document.title = `${res.data?.title} | 问卷填写` as string
-    return <div className='flex justify-center flex-wrap'>
+    return <div className='flex justify-center flex-wrap min-h-10px'>
       <div
         className='md:(w-[768px] mt20) w-[500px] mt15 lt-xm:(mt10 w-screen) p5 fill-box min-w-[320px]'
       >
@@ -35,7 +35,7 @@ export const SurveyFill = () => {
   }
 }
 
-function Footer() {
+export function Footer() {
   return <footer className='h15 w-100% flex-center bg-gray-100 mt15'>
     <Typography.Link href='/' target='_blank'>
       <span text='base'>

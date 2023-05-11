@@ -17,6 +17,7 @@ interface SingleChoiceProps {
   isModel?: boolean
   questionId?: number
   onUpdate?: (x: IAnswer) => void
+  idx?: number
 }
 
 const defaultOptions: IOption[] = [
@@ -37,7 +38,7 @@ const defaultOptions: IOption[] = [
   }
 ]
 
-export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题', vertical = false, required = 1, isModel = false, options = defaultOptions, questionId, onUpdate }) => {
+export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题', vertical = false, required = 1, isModel = false, options = defaultOptions, questionId, onUpdate, idx }) => {
   const { curOptions } = useSnapshot(optionStore)
 
   const [value, setValue] = useState()
@@ -57,7 +58,7 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题',
     !isModel && optionStore.updateCurOptions(res?.data?.rows as IOption[])
   }}>
     <QuestionBox isModel={isModel}>
-      <Typography.Text className={required ? 'requred-tip ' : ''}>{title}</Typography.Text>
+      <Typography.Text className={required ? 'requred-tip ' : ''}>{idx}. {title}</Typography.Text>
       <br/>
       <Radio.Group onChange={onChange} value={value}>
         <Space

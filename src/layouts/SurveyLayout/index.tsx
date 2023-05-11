@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import { Layout } from 'antd'
 import type { PropsWithChildren } from 'react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSnapshot } from 'valtio'
 import type { MenuItemType } from 'antd/es/menu/hooks/useItems'
 import { menuStore, themeStore } from '~/store'
@@ -25,6 +25,14 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
 
   const { theme } = useSnapshot(themeStore)
 
+  // 每次路由变化，页面都滚动到顶部
+  const loc = useLocation()
+  useEffect(() => {
+    window.scrollTo({
+      top: 0
+    })
+  }, [loc.pathname])
+
   return (
     <Layout className='theme-duration dark:bg-darkbg'>
       <Sider
@@ -43,19 +51,19 @@ export function SurveyLayout(props: PropsWithChildren<SurveyLayoutProps>) {
         }}
         className='theme-duration'
       >
-        <SSider collapsed={collapsed} menus={menus as MenuItemType[]}/>
+        <SSider collapsed={collapsed} menus={menus as MenuItemType[]} />
       </Sider>
       <Layout style={{ marginLeft: !collapsed ? 200 : 80 }}>
         <Header
           className='h20 p5 flex items-center theme-duration bg-white dark:(bg-dark text-darktext hover:text-white)'
           style={{ position: 'sticky', top: 0, zIndex: 1 }}
         >
-          <SHeader onToggle={onToggle} collapsed={collapsed}/>
+          <SHeader onToggle={onToggle} collapsed={collapsed} />
         </Header>
 
         <Content className='relative bg-lightbg theme-duration dark:bg-darkbg'>
-          <div className='m5 p5 bg-white theme-duration dark:(bg-dark text-darktext) rounded-xl min-content-h'>
-          <Outlet />
+          <div className='m5 p5 bg-white theme-duration dark:(bg-dark text-darktext) rounded-xl min-h-120px'>
+            <Outlet />
           </div>
         </Content>
 

@@ -26,7 +26,7 @@ export function MainSection() {
         </div>
       </div>
       <div
-        className='min-section-h flex'
+        className='min-h-80px flex'
         flex='col justify-center items-center'
       >
         <Title level={1} font='deyihei'>在线调查问卷系统</Title>
