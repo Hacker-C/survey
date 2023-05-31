@@ -175,9 +175,17 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
                 color: '#FBC02D'
               }}
               onClick={() => {
-                warning('功能开发中...')
-                copySurvey(survey.id)
-              }}
+                copySurvey(survey.id).then((res) => {
+                  if (res.code === 200) {
+                    success('复制成功', () => {
+                      nav(`/question/edit/${res.data}`)
+                    })
+                  } else {
+                    error('复制失败，请联系系统管理员')
+                  }
+                })
+              }
+              }
               className='mr2 survey-item-bottom'
             >
               <IIcon icon='ph:copy-simple-bold' className='mr1' />
@@ -212,7 +220,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         onCancel={() => setOpen(false)}
         footer={null}
       >
-        <LinkSend id={id}/>
+        <LinkSend id={id} />
       </Modal>
 
       {contextHolder}

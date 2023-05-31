@@ -7,7 +7,7 @@ export const saveQuestion = (params: Prettify<Omit<IQuestion, 'id'>>) => {
   if (!params?.sort) {
     params.sort = 0
   }
-  return httpPost('/question', { ...params })
+  return httpPost<number>('/question', { ...params })
 }
 
 /** 后台获取问题列表 */

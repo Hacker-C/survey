@@ -1,3 +1,4 @@
+import type { IOption } from './option'
 import type { QuestionType } from '~/constant'
 
 export interface IQuestion {
@@ -7,4 +8,5 @@ export interface IQuestion {
   surveyId: number
   title: string
   sort?: number
+  options: IOption[]
 }

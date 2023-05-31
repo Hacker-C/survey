@@ -1,4 +1,5 @@
 import { saveQuestion } from './question'
+import { saveOption } from './option'
 import type { GetSurveyForAll, ListSurveyForm, Surveylist, addSurveyForm } from '~/interfaces'
 import { httpDelete, httpGet, httpPost, httpPut } from '~/utils'
 
@@ -120,7 +121,6 @@ export const copySurvey = async (id: number) => {
   const newId = (await addSurvey(surveyParams)).data!
 
   // 添加问卷的每一个问题
-  const saveQuestionPromises = []
   for (const question of survey!.questions) {
     const questionParams = {
       type: question.type,
@@ -129,10 +129,19 @@ export const copySurvey = async (id: number) => {
       title: question.title,
       sort: question.sort
     }
-    saveQuestionPromises.push(new Promise((resolve) => {
-      saveQuestion(questionParams).then((res) => {
-        resolve(res.code)
+    saveQuestion(questionParams as any)
+      .then((res) => {
+        // 问题添加成功，即开始添加问题的选项
+        const questionId = res.data
+        for (const option of question.options) {
+          const optionParams = {
+            questionId: questionId!,
+            content: option.content,
+            sort: option.sort
+          }
+          saveOption(optionParams)
+        }
       })
-    }))
   }
+  return { code: 200, msg: '复制成功', data: newId }
 }
