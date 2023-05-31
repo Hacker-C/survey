@@ -7,9 +7,10 @@ import { useState } from 'react'
 interface SuDatePickerProps {
   onSuOk: (value: any) => void
   defaultValue?: string
+  disabled?: boolean
 }
 
-export const SuDatePicker: React.FC<SuDatePickerProps> = ({ onSuOk, defaultValue }) => {
+export const SuDatePicker: React.FC<SuDatePickerProps> = ({ onSuOk, defaultValue, disabled = false }) => {
   const [selectedDate, setSelectedDate] = useState(dayjs())
   const onChange = (
     value: DatePickerProps['value']
@@ -48,7 +49,8 @@ export const SuDatePicker: React.FC<SuDatePickerProps> = ({ onSuOk, defaultValue
     disabledDate={disabledDate}
     disabledTime={disabledDateTime}
     placeholder='请选择截止时间'
-    defaultValue={ defaultValue ? dayjs(defaultValue) : undefined}
+    defaultValue={defaultValue ? dayjs(defaultValue) : undefined}
     onOk={v => onSuOk(dayjs(v).format('YYYY-MM-DDTHH:mm:ss.SSSSSSSSS'))}
+    disabled={disabled}
   />
 }

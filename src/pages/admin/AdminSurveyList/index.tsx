@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks'
 import type { ColumnsType } from 'antd/es/table'
 import { Button, Table, Tooltip, Typography } from 'antd'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getLinkBySurveyId, getSurveyList } from '~/api'
 import { SearchPanel } from '~/components/SearchPanel'
@@ -84,12 +84,12 @@ const columns: ColumnsType<ListSurvey> = [
     title: '操作',
     key: 'action',
     render: (_, record) => (
-      <Button type='primary' className='flex-center' onClick={() => {
-        location.href = `/question/preview/${record.id}`
-      }}>
-        <IIcon icon='icon-park-outline:preview-open' />
-        <span m='l1'>预览</span>
-      </Button>
+      <Link to={`/question/preview/${record.id}`}>
+        <Button type='primary' className='flex-center'>
+          <IIcon icon='icon-park-outline:preview-open' />
+          <span m='l1'>预览</span>
+        </Button>
+      </Link>
     )
   }
 ]
