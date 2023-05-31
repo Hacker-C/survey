@@ -1,12 +1,16 @@
 import { useRequest } from 'ahooks'
 import { Button, Checkbox, Form, Input } from 'antd'
+import { useSnapshot } from 'valtio'
+import { useEffect } from 'react'
 import { login } from '~/api'
 import type { ILoginForm } from '~/interfaces'
-import { userStore } from '~/store'
+import { loginStore, userStore } from '~/store'
 import { useMessage } from '~/hooks'
+import { decrypt, encrypt } from '~/utils'
 
 export function LogicForm() {
   const { contextHolder, success, error } = useMessage()
+  const { state } = useSnapshot(loginStore)
 
   const { run, loading } = useRequest(login, {
     manual: true,
@@ -25,14 +29,23 @@ export function LogicForm() {
   })
 
   function onLogin(values: ILoginForm) {
+    if (state?.remember) {
+      loginStore.updateUser({ ...values, password: encrypt(values.password), remember: true })
+    }
     run(values)
   }
+
+  const [form] = Form.useForm()
+  useEffect(() => {
+    form.setFieldsValue({ ...state, password: state?.password ? decrypt(state.password) : undefined })
+  }, [])
 
   return (
     <Form
       layout='vertical'
       className='w70'
       onFinish={onLogin}
+      form={form}
     >
       {contextHolder}
       <Form.Item
@@ -40,7 +53,7 @@ export function LogicForm() {
         name="username"
         rules={[{ required: true, message: '请输入用户名' }]}
       >
-        <Input placeholder='请输入用户名'/>
+        <Input placeholder='请输入用户名' />
       </Form.Item>
 
       <Form.Item
@@ -48,11 +61,18 @@ export function LogicForm() {
         name="password"
         rules={[{ required: true, message: '请输入密码' }]}
       >
-        <Input type='password' placeholder='请输入密码'/>
+        <Input type='password' placeholder='请输入密码' />
       </Form.Item>
 
       <Form.Item name="remember" valuePropName="checked">
-        <Checkbox>记住我</Checkbox>
+        <Checkbox onChange={(e) => {
+          const checked = e.target.checked
+          if (checked) {
+            loginStore.updateUser({ ...form.getFieldsValue(), password: encrypt(form.getFieldValue('password')) })
+          } else {
+            loginStore.clearUser()
+          }
+        }}>记住我</Checkbox>
       </Form.Item>
 
       <Form.Item>
