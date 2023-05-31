@@ -5,7 +5,7 @@ import { LinkSend } from './link-send'
 import { IIcon } from '~/components/IIcon'
 import type { ListSurvey } from '~/interfaces'
 import { formatTime } from '~/utils'
-import { addRecycle, cancelPublic, makePublic, updateSurveyLike } from '~/api'
+import { addRecycle, cancelPublic, copySurvey, makePublic, updateSurveyLike } from '~/api'
 import { useMessage } from '~/hooks'
 
 interface SurveyItemProps {
@@ -176,6 +176,7 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
               }}
               onClick={() => {
                 warning('功能开发中...')
+                copySurvey(survey.id)
               }}
               className='mr2 survey-item-bottom'
             >

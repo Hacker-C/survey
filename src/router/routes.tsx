@@ -175,7 +175,7 @@ export const routes: RouterConfig[] = [
     element: <QuestionPreview />,
     meta: {
       isAuth: true,
-      requireRoles: ['user'],
+      requireRoles: ['user', 'admin'],
       title: '问卷预览'
     }
   },

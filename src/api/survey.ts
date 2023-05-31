@@ -1,3 +1,4 @@
+import { saveQuestion } from './question'
 import type { GetSurveyForAll, ListSurveyForm, Surveylist, addSurveyForm } from '~/interfaces'
 import { httpDelete, httpGet, httpPost, httpPut } from '~/utils'
 
@@ -104,4 +105,34 @@ export const getSurveyNameList = () => {
 /** 更新问卷 */
 export const updateSurvey = (params: addSurveyForm & { id: number }) => {
   return httpPut<{}>('/survey', { ...params })
+}
+
+/** 复制问卷 */
+export const copySurvey = async (id: number) => {
+  const survey = (await getSurveyOverAll(id)).data
+
+  const surveyParams = {
+    title: `${survey!.title}（copy-${Date.now().toString().slice(0, 6)}）`,
+    description: survey!.description,
+    expireTime: survey!.expireTime
+  }
+  // 创建问卷基本信息
+  const newId = (await addSurvey(surveyParams)).data!
+
+  // 添加问卷的每一个问题
+  const saveQuestionPromises = []
+  for (const question of survey!.questions) {
+    const questionParams = {
+      type: question.type,
+      required: question.required,
+      surveyId: newId,
+      title: question.title,
+      sort: question.sort
+    }
+    saveQuestionPromises.push(new Promise((resolve) => {
+      saveQuestion(questionParams).then((res) => {
+        resolve(res.code)
+      })
+    }))
+  }
 }

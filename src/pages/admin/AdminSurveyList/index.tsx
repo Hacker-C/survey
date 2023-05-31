@@ -1,13 +1,16 @@
 import { useRequest } from 'ahooks'
 import type { ColumnsType } from 'antd/es/table'
-import { Button, Table, Tag } from 'antd'
+import { Button, Table, Tooltip, Typography } from 'antd'
 import { useSearchParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import { getSurveyList } from '~/api'
+import { useEffect, useState } from 'react'
+import { getLinkBySurveyId, getSurveyList } from '~/api'
 import { SearchPanel } from '~/components/SearchPanel'
 import type { ListSurvey } from '~/interfaces'
 import { LIST_SEARCH_KEY } from '~/constant'
-import { formatTime } from '~/utils'
+import { formatTime, surveyStatusComp } from '~/utils'
+import { IIcon } from '~/components/IIcon'
+
+const { Paragraph } = Typography
 
 const columns: ColumnsType<ListSurvey> = [
   {
@@ -30,9 +33,35 @@ const columns: ColumnsType<ListSurvey> = [
     dataIndex: 'status',
     key: 'status',
     render: (status) => {
-      return <Tag color={status === 0 ? 'orange' : 'blue'}>
-        {status === 0 ? '未发布' : '已发布'}
-      </Tag>
+      return surveyStatusComp(status)
+    }
+  },
+  {
+    title: '链接',
+    dataIndex: 'link',
+    key: 'link',
+    render: (link, record) => {
+      const fullLink = `http://localhost:3333/sv/${link}`
+      return record.status === 1
+        ? <div className='flex'>
+          <Paragraph
+            copyable={{
+              text: fullLink,
+              tooltips: ['复制链接', '复制成功']
+            }}
+            style={{
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <span>{link}</span>
+          </Paragraph>
+          <Tooltip title="打开链接">
+            <a href={fullLink} target='_blank'>
+              <IIcon icon='ph:link' width='20' className='text-primary cursor-pointer' />
+            </a>
+          </Tooltip>
+        </div>
+        : '暂无链接'
     }
   },
   {
@@ -55,9 +84,12 @@ const columns: ColumnsType<ListSurvey> = [
     title: '操作',
     key: 'action',
     render: (_, record) => (
-      <>
-        <Button danger>删除</Button>
-      </>
+      <Button type='primary' className='flex-center' onClick={() => {
+        location.href = `/question/preview/${record.id}`
+      }}>
+        <IIcon icon='icon-park-outline:preview-open' />
+        <span m='l1'>预览</span>
+      </Button>
     )
   }
 ]
@@ -76,6 +108,25 @@ export const AdminSurveyList = () => {
 
   useEffect(refresh, [searchParams])
 
+  const [surveys, setSurveys] = useState<ListSurvey[]>([])
+  useEffect(() => {
+    setSurveys(data?.data?.rows as ListSurvey[])
+    data?.data?.rows?.forEach(async (item) => {
+      const link = (await getLinkBySurveyId(item.id)).data
+      setSurveys((surveys) => {
+        return surveys?.map((survey) => {
+          if (survey.id === item.id) {
+            return {
+              ...survey,
+              link
+            }
+          }
+          return survey
+        })
+      })
+    })
+  }, [data])
+
   return <div p='5 t4'>
     <div flex='' m='b5'>
       <h2 text='xl' font='bold'>问卷管理</h2>
@@ -86,7 +137,7 @@ export const AdminSurveyList = () => {
       bordered
       loading={loading}
       columns={columns}
-      dataSource={data?.data?.rows}
+      dataSource={surveys}
     />
   </div>
 }

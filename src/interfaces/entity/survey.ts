@@ -1,6 +1,6 @@
 import type { PageList } from './common'
+import type { IQuestion } from './question'
 import type { Prettify } from '~/utils'
-import { IQuestion } from './question'
 
 export type ListSurvey = Prettify<{
   id: number
