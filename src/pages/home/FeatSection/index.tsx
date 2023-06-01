@@ -7,7 +7,7 @@ const { Title, Paragraph } = Typography
 
 export function FeatSection() {
   return (
-    <div>
+    <div className='bg-[#eaf2f7]'>
       <Title className='h-[30vh] flex-center font-deyihei'>
         <span text=''>系统特性</span>
       </Title>

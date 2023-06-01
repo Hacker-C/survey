@@ -18,7 +18,7 @@ export function MainSection() {
         <div flex='1' />
         <div>
           <Link to={'/login'}>
-            <Button size='large'>登 录</Button>
+            <Button size='large' type='primary'>前往登录</Button>
           </Link>
           <Link to={'/register'}>
             <Button m='x2' type='primary' size='large'>免费注册</Button>
@@ -34,8 +34,15 @@ export function MainSection() {
           简单、快速、有趣——马上创建您的第一份调查问卷，以更深入了解您的调查对象。(*^_^*)
         </Paragraph>
         <div>
-          <Link to={ role === 0 ? '/survey' : '/admin'}>
-            <Button size={'large'} shape={'round'} type={'primary'}>开始使用</Button>
+          <Link to={role === 0 ? '/survey' : '/admin'}>
+            <Button size={'large'} type={'primary'} style={{
+              height: '50px',
+              width: '150px'
+            }}>
+              <span text='xl' >
+                开始使用
+              </span>
+            </Button>
           </Link>
         </div>
       </div>

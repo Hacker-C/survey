@@ -11,8 +11,9 @@ import { LogicEdit } from './logic-edit'
 import { HeaderCenter } from './HeaderCenter'
 import { IIcon } from '~/components/IIcon'
 import { QuestionLayout } from '~/layouts'
-import { getSurveyList, listQuestion } from '~/api'
+import { getLinkBySurveyId, getSurveyList, listQuestion, makePublic } from '~/api'
 import { questionStore, surveyStore } from '~/store'
+import { useMessage } from '~/hooks'
 
 export function QuestionEdit() {
   const { id } = useParams()
@@ -154,6 +155,7 @@ function HeaderLeft() {
 function HeaderRight() {
   const nav = useNavigate()
   const { id } = useParams()
+  const { success, contextHolder } = useMessage()
   return (
     <div p='x5' flex='center'>
       <Button m='r2' flex='center' onClick={() => {
@@ -163,11 +165,20 @@ function HeaderRight() {
         预览
       </Button>
       <Button type='primary' flex='center' onClick={() => {
-        nav(-1)
+        makePublic(+id!).then(async (res) => {
+          if (res.code === 200) {
+            const linkText = (await getLinkBySurveyId(+id!)).data
+            const link = `/sv/${linkText}`
+            success('发布成功！', () => {
+              window.open(link)
+            })
+          }
+        })
       }}>
         <IIcon icon='icons8:finish-flag' className='mr1' />
-        完成编辑
+        发布
       </Button>
+      {contextHolder}
     </div>
   )
 }

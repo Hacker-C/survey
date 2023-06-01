@@ -1,4 +1,4 @@
-import { Button, Card, Modal, Popconfirm, Tag } from 'antd'
+import { Button, Card, Modal, Popconfirm, Tag, Tooltip, Typography } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LinkSend } from './link-send'
@@ -91,14 +91,21 @@ export function SurveyItem({ survey, refresh }: SurveyItemProps) {
         title={
           <div className='theme-duration dark:(text-darktext) my3'>
             <div className='mr3'>{title}</div>
-            <div className='text-sm font-normal'>{description}</div>
+            <div p='r10'>
+              <Tooltip title={description}>
+                <Typography.Paragraph ellipsis={true}>
+                  <span font='normal'>
+                    {description}
+                  </span>
+                </Typography.Paragraph>
+              </Tooltip>
+            </div>
           </div>
         }
         extra={
           <div className='flex items-center theme-duration dark:(text-darktext)'>
             <span className='mr3'>ID: {id}</span>
             <Tag color={statu === 0 ? 'orange' : 'blue'} className='mr3'>{statu === 0 ? '未发布' : '已发布'}</Tag>
-            <span className='mr3'>答卷：{10}</span>
             <span className='mr3'>创建：{formatTime(createTime)}</span>
             <span>截止：{formatTime(expireTime)}</span>
           </div>

@@ -1,6 +1,7 @@
 import { Card, Typography } from 'antd'
 import { useSnapshot } from 'valtio'
 import { QuestionType, SEPERATOR } from '~/constant'
+import type { IQuestion } from '~/interfaces'
 import { questionStore, surveyStore } from '~/store'
 import { genComponent } from '~/utils'
 
@@ -27,7 +28,7 @@ export const LogicEdit = () => {
         return <div
           key={q.id}
           onClick={() => {
-            updateCurQuestion(q)
+            updateCurQuestion(q as IQuestion)
           }}
           className='border-2 border-solid border-transparent question-border-hover my2'
           style={{ borderColor: curQuestion?.id === q.id ? '#1677ff' : '' }}
@@ -39,6 +40,7 @@ export const LogicEdit = () => {
             idx={idx}
             required={q.required}
             questionId={q.id}
+            vertical={true}
           />
         </div>
       })}

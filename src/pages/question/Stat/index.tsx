@@ -30,7 +30,6 @@ export function QuestionStat() {
             >
               <Descriptions.Item label="问卷标题">{res?.data?.title}</Descriptions.Item>
               <Descriptions.Item label="问卷描述">{res?.data?.description}</Descriptions.Item>
-              <Descriptions.Item label="问卷作者">{res?.data?.nickname}</Descriptions.Item>
               <Descriptions.Item label="截止时间">{formatTime(res?.data?.expireTime)}</Descriptions.Item>
               <Descriptions.Item label="问题总数">{questions.length}</Descriptions.Item>
               <Descriptions.Item label="答卷总数">{res?.data?.total}</Descriptions.Item>

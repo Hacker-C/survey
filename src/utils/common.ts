@@ -37,3 +37,13 @@ export const getDescriptionByType = (type: QuestionType) => {
     [QuestionType.AREA_INPUT, '多行输入题']
   ]).get(type) ?? '其他题型'
 }
+
+/** 比较两个数组是否完全相同 */
+export const compareArray = (arr1: any[], arr2: any[]) => {
+  return arr1.length === arr2.length && arr1.every((item, index) => item === arr2[index])
+}
+
+/** 判断前一个数组是否完全包含后一个数组 */
+export const isContainArray = (arr1: any[], arr2: any[]) => {
+  return arr2.every(item => arr1.includes(item))
+}

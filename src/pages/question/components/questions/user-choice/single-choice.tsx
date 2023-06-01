@@ -11,13 +11,13 @@ import { optionStore } from '~/store'
 
 interface SingleChoiceProps {
   title?: string
-  options?: IOption[]
   vertical?: boolean
   required?: number
   isModel?: boolean
   questionId?: number
   onUpdate?: (x: IAnswer) => void
   idx?: number
+  options?: IOption[]
 }
 
 const defaultOptions: IOption[] = [
@@ -38,7 +38,16 @@ const defaultOptions: IOption[] = [
   }
 ]
 
-export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题', vertical = false, required = 1, isModel = false, options = defaultOptions, questionId, onUpdate, idx }) => {
+export const SingleChoice: React.FC<SingleChoiceProps> = ({
+  title = '单选题',
+  vertical = false,
+  required = 1,
+  isModel = false,
+  options = defaultOptions,
+  questionId,
+  onUpdate,
+  idx
+}) => {
   const { curOptions } = useSnapshot(optionStore)
 
   const [value, setValue] = useState()
@@ -49,8 +58,8 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题',
   const { data: res, refresh } = useRequest(() => listOption({ questionId: questionId as number }))
 
   const localOptions = !isModel
-    ? res?.data?.rows ?? []
-    : options
+    ? res?.data?.rows.length === 0 ? options : res?.data?.rows
+    : defaultOptions
 
   useEffect(refresh, [curOptions])
 
@@ -59,28 +68,30 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({ title = '单选题',
   }}>
     <QuestionBox isModel={isModel}>
       <Typography.Text className={required ? 'requred-tip ' : ''}>{idx}. {title}</Typography.Text>
-      <br/>
-      <Radio.Group onChange={onChange} value={value}>
-        <Space
-          direction={vertical ? 'vertical' : 'horizontal'}
-          className={vertical ? '' : 'flex flex-wrap'}
-        >
-          {
-            localOptions?.map((option) => {
-              return <Radio
-                key={option.id}
-                value={option.content}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onUpdate?.({ optionId: option.id, content: option.content, questionId: questionId as number })
-                }}
-              >
+      <br />
+      <div m='l5 t1'>
+        <Radio.Group onChange={onChange} value={value}>
+          <Space
+            direction={vertical ? 'vertical' : 'horizontal'}
+            className={vertical ? '' : 'flex flex-wrap'}
+          >
+            {
+              localOptions?.map((option) => {
+                return <Radio
+                  key={option.id}
+                  value={option.content}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onUpdate?.({ optionId: option.id, content: option.content, questionId: questionId as number })
+                  }}
+                >
                   {option.content}
-              </Radio>
-            })
-          }
-        </Space>
-      </Radio.Group>
+                </Radio>
+              })
+            }
+          </Space>
+        </Radio.Group>
+      </div>
     </QuestionBox>
   </div>
 }

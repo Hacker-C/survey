@@ -15,13 +15,16 @@ interface AreaInputProps {
 
 export const AreaInput: React.FC<AreaInputProps> = ({ title = '标题', placeholder = '输入一段内容...', required = true, isModel = false, onUpdate, questionId, idx }) => {
   return <QuestionBox isModel={isModel}>
-    <Typography.Text className={ required ? 'requred-tip' : ''}>{idx}. { title }</Typography.Text>
-    <Input.TextArea placeholder={placeholder} onInput={(e) => {
-      const content = e.currentTarget.value
-      onUpdate?.({
-        content,
-        questionId
-      } as IAnswer)
-    }}/>
+    <Typography.Text className={required ? 'requred-tip' : ''}>{idx}. {title}</Typography.Text>
+    <div m='l5 t2'>
+      <Input.TextArea placeholder={placeholder} onInput={(e) => {
+        const content = e.currentTarget.value
+        onUpdate?.({
+          content,
+          questionId
+        } as IAnswer)
+      }} />
+    </div>
+
   </QuestionBox>
 }

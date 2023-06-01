@@ -8,7 +8,7 @@ import type { IAnswer } from '~/api'
 import { listOption } from '~/api'
 import { optionStore } from '~/store'
 
-const options: IOption[] = [
+const defaultOptions: IOption[] = [
   {
     id: 1,
     content: 'A',
@@ -29,12 +29,12 @@ const options: IOption[] = [
 interface SingleChoiceProps {
   onUpdate?: (questionId: number, p: IAnswer[]) => void
   title?: string
-  options?: IOption[]
   vertical?: boolean
   required?: number
   isModel?: boolean
   questionId?: number
   idx?: number
+  options?: IOption[]
 }
 
 export const MultipleChoice: React.FC<SingleChoiceProps> = ({
@@ -44,7 +44,8 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   isModel = false,
   questionId,
   onUpdate,
-  idx
+  idx,
+  options = defaultOptions
 }) => {
   const { curOptions } = useSnapshot(optionStore)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
@@ -77,8 +78,10 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   const { data: res, refresh } = useRequest(() => listOption({ questionId: questionId as number }))
 
   const localOptions = !isModel
-    ? res?.data?.rows ?? []
-    : options
+    ? res?.data?.rows.length === 0
+      ? options
+      : (res?.data?.rows ?? [])
+    : defaultOptions
 
   useEffect(refresh, [curOptions])
 
@@ -87,22 +90,24 @@ export const MultipleChoice: React.FC<SingleChoiceProps> = ({
   }}>
     <QuestionBox isModel={isModel}>
       <Typography.Text className={required ? 'requred-tip ' : ''}>{idx}. {title}</Typography.Text>
-      <Space
-        direction={vertical ? 'vertical' : 'horizontal'}
-        className={vertical ? '' : 'flex flex-wrap'}
-      >
-        {
-          localOptions.map((option) => {
-            return <Checkbox
-              key={option.id}
-              onChange={() => handleCheckboxChange(option)}
-              onClick={e => e.stopPropagation()}
-            >
-              {option.content}
-            </Checkbox>
-          })
-        }
-      </Space>
+      <div m='l5 t1'>
+        <Space
+          direction={vertical ? 'vertical' : 'horizontal'}
+          className={vertical ? '' : 'flex flex-wrap'}
+        >
+          {
+            localOptions.map((option) => {
+              return <Checkbox
+                key={option.id}
+                onChange={() => handleCheckboxChange(option)}
+                onClick={e => e.stopPropagation()}
+              >
+                {option.content}
+              </Checkbox>
+            })
+          }
+        </Space>
+      </div>
     </QuestionBox>
   </div>
 }

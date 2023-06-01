@@ -9,14 +9,23 @@ export const surveyStore = proxy<{
   updateCurSurvey: (val: CSurvey) => void
   modelVisible: boolean
   updateModelVisible: (val: boolean) => void
+  submitted: boolean
+  makeSubmit: () => void
 }>({
       curSurvey: null,
       updateCurSurvey: (val: CSurvey) => {
         surveyStore.curSurvey = val
       },
+
       modelVisible: false,
       updateModelVisible: (val: boolean) => {
         surveyStore.modelVisible = val
+      },
+
+      submitted: localStorage.getItem('submitted') === 'true',
+      makeSubmit: () => {
+        surveyStore.submitted = true
+        localStorage.setItem('submitted', 'true')
       }
     })
 

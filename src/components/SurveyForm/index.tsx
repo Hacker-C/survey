@@ -3,17 +3,17 @@ import { Button, Typography } from 'antd'
 import React, { useRef, useState } from 'react'
 import type { IAnswer } from '~/api'
 import { saveAnswer } from '~/api'
-import { genComponent } from '~/utils'
+import { genComponent, isContainArray } from '~/utils'
 import { QuestionType, SEPERATOR } from '~/constant'
 import { useMessage } from '~/hooks'
 import type { GetSurveyForAll } from '~/interfaces'
+import { surveyStore } from '~/store'
 
 interface SurveyFormProps {
   survey: GetSurveyForAll
-  onSuccess?: () => void
 }
 
-export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => {
+export const SurveyForm: React.FC<SurveyFormProps> = ({ survey }) => {
   const loc = useLocation()
   const { success, error, warning, contextHolder } = useMessage()
 
@@ -44,13 +44,13 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
       multiAnswers.push(...a[1])
     }
     const answers = [...singleAnswers, ...multiAnswers]
-    const questionslength = survey.questions.filter(q => q.type !== QuestionType.TEXT_VIEW
+    const answersIds = answers.map(a => a.questionId)
+    const requiredQuestionsIds = survey.questions.filter(q => q.type !== QuestionType.TEXT_VIEW
       && q.type !== QuestionType.TITLE_TEXT_VIEW
-      && q.type !== QuestionType.TITLE_VIEW).length
-    const answersLength = [...new Set(answers.map(a => a.questionId))].length
-    const isAllFilled = questionslength === answersLength
-    if (!isAllFilled) {
-      return warning('请完成所有题目')
+      && q.type !== QuestionType.TITLE_VIEW
+      && q.required !== 0).map(q => q.id)
+    if (!isContainArray(answersIds, requiredQuestionsIds)) {
+      return warning('请完成所有必答题目')
     }
     saveAnswer({
       answers,
@@ -58,7 +58,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
     }).then((res) => {
       if (res.code === 200) {
         success('答卷提交成功！', () => {
-          onSuccess?.()
+          surveyStore.makeSubmit()
         })
       } else {
         error(res.msg)
@@ -71,7 +71,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
   let idx = 0
 
   return <div>
-    <Typography.Title level={4} text='center'>
+    <Typography.Title level={4} text='center' p='t5'>
       <span text='primary'>
         {survey?.title}
       </span>
@@ -96,6 +96,8 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey, onSuccess }) => 
           idx={idx}
           required={q.required}
           questionId={q.id}
+          options={q.options}
+          vertical={true}
         />
       })}
     </div>

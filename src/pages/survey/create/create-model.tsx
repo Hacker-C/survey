@@ -22,37 +22,52 @@ export const CreateModel: React.FC<CreateModelProps> = ({ closeModel }) => {
     </div>
     <div className='flex flex-wrap'>
       {
-        (data?.data?.rows ?? []).map((item) => {
-          return <Card style={{ width: 250, marginBottom: 15, marginRight: 15 }} key={item.id} title={
-            <Tooltip title={item.description}>
-              {item.title}
-            </Tooltip>
-          } hoverable>
-            <div>
+        !data?.data?.rows.length
+          ? <div
+            className='w-100% flex justify-center mt10'
+          >
+            <div className='flex justify-center flex-col v-center'>
+              <img src={'https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'} />
+              <div>
+                暂无问卷模板，请从空白模板创建
+              </div>
+              <div flex='center' m='t5'>
+                <Button type="primary" onClick={closeModel}>从空白创建问卷</Button>
+              </div>
+            </div>
+
+          </div>
+          : (data?.data?.rows ?? []).map((item) => {
+              return <Card style={{ width: 250, marginBottom: 15, marginRight: 15 }} key={item.id} title={
               <Tooltip title={item.description}>
-                <Typography.Paragraph ellipsis={true}>{item.description}</Typography.Paragraph>
+                {item.title}
               </Tooltip>
-            </div>
-            <div className='flex justify-center' p='t3'>
-              <Link to={`/question/preview/${item.id}`}>
-                <Button>预览模板</Button>
-              </Link>
-              <Button type='primary' m='l3' onClick={() => {
-                copySurvey(item.id).then((res) => {
-                  if (res.code === 200) {
-                    success('复制模板成功', () => {
-                      nav(`/question/edit/${res.data}`)
-                    })
-                  } else {
-                    error('复制失败，请联系系统管理员')
-                  }
-                })
-              }}>使用该模板</Button>
-            </div>
-          </Card>
-        })
+            } hoverable>
+              <div>
+                <Tooltip title={item.description}>
+                  <Typography.Paragraph ellipsis={true}>{item.description}</Typography.Paragraph>
+                </Tooltip>
+              </div>
+              <div className='flex justify-center' p='t3'>
+                <Link to={`/question/preview/${item.id}`}>
+                  <Button>预览模板</Button>
+                </Link>
+                <Button type='primary' m='l3' onClick={() => {
+                  copySurvey(item.id).then((res) => {
+                    if (res.code === 200) {
+                      success('复制模板成功', () => {
+                        nav(`/question/edit/${res.data}`)
+                      })
+                    } else {
+                      error('复制失败，请联系系统管理员')
+                    }
+                  })
+                }}>使用该模板</Button>
+              </div>
+            </Card>
+            })
       }
     </div>
-    { contextHolder }
+    {contextHolder}
   </div>
 }

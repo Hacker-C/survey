@@ -68,7 +68,6 @@ export function SurveyCreate() {
                 <Form.Item
                   label={<span text='base' className='dark:text-white'>请输入问卷描述</span>}
                   name='description'
-                  rules={[{ required: true, message: '请输入问卷描述' }]}
                 >
                   <Input.TextArea
                     placeholder='请输入问卷描述'
@@ -94,7 +93,6 @@ export function SurveyCreate() {
               style={{ width: 400, marginLeft: 40 }}
             >
               <Form
-                form={form}
                 layout='vertical'
               >
                 <Form.Item
@@ -127,7 +125,7 @@ export function SurveyCreate() {
                 <Form.Item>
                   <Button type='primary' onClick={() => {
                     surveyStore.updateModelVisible(true)
-                  }} loading={loading} w='100%'>查看所有模板</Button>
+                  }} w='100%'>查看所有模板</Button>
                 </Form.Item>
               </Form>
             </Card>
