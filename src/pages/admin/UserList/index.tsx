@@ -19,7 +19,7 @@ export const UserList = () => {
   const { data, loading, refresh } = useRequest(
     () => getUserList({
       pageNum: 1,
-      pageSize: 100,
+      pageSize: 1000,
       nickname: searchParams.get('keyword') ?? ''
     }),
     {
@@ -70,7 +70,12 @@ export const UserList = () => {
     warning('已取消删除')
   }
 
-  const users = addKeyOfData((data?.data?.rows ?? []))
+  let users = addKeyOfData((data?.data?.rows ?? []))
+  const ids = users.map(item => item.id)
+  const UID = +searchParams.get('id')!
+  if (ids.includes(UID)) {
+    users = users.filter(item => item.id === UID)
+  }
   const columns: ColumnsType<typeof users[0]> = [
     {
       title: 'ID',

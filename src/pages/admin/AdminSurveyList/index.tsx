@@ -3,7 +3,7 @@ import type { ColumnsType } from 'antd/es/table'
 import { Button, Table, Tooltip, Typography } from 'antd'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getLinkBySurveyId, getSurveyList } from '~/api'
+import { getLinkBySurveyId, getSurveyList, getUserList } from '~/api'
 import { SearchPanel } from '~/components/SearchPanel'
 import type { ListSurvey } from '~/interfaces'
 import { LIST_SEARCH_KEY } from '~/constant'
@@ -17,6 +17,11 @@ const columns: ColumnsType<ListSurvey> = [
     title: 'ID',
     dataIndex: 'id',
     key: 'id'
+  },
+  {
+    title: 'UID',
+    dataIndex: 'userId',
+    key: 'userId'
   },
   {
     title: '标题',
@@ -84,12 +89,23 @@ const columns: ColumnsType<ListSurvey> = [
     title: '操作',
     key: 'action',
     render: (_, record) => (
-      <Link to={`/question/preview/${record.id}`}>
-        <Button type='primary' className='flex-center'>
-          <IIcon icon='icon-park-outline:preview-open' />
-          <span m='l1'>预览</span>
-        </Button>
-      </Link>
+      <div flex=''>
+        <Link to={`/question/preview/${record.id}`}>
+          <Tooltip title='预览问卷'>
+            <Button type='text' className='flex-center' shape={'circle'}>
+              <IIcon icon='icon-park-outline:preview-open' className='text-primary' />
+            </Button>
+          </Tooltip>
+        </Link>
+        <Link to={`/admin/user?id=${record.userId}`}>
+          <Tooltip title='查看作者'>
+            <Button type='text' className='flex-center' shape={'circle'}>
+              <IIcon icon='icon-park-outline:me' className='text-[#d7783a]' />
+            </Button>
+          </Tooltip>
+        </Link>
+      </div>
+
     )
   }
 ]
@@ -106,11 +122,25 @@ export const AdminSurveyList = () => {
     {}
   )
 
+  const { data: usersRes } = useRequest(
+    () => getUserList({
+      pageNum: 1,
+      pageSize: 1000
+    })
+  )
+
   useEffect(refresh, [searchParams])
 
   const [surveys, setSurveys] = useState<ListSurvey[]>([])
+  const [total, setTotal] = useState(0)
+  const usersIds = usersRes?.data?.rows?.map(user => user.id)
   useEffect(() => {
-    setSurveys(data?.data?.rows as ListSurvey[])
+    const totalSurveys = (data?.data?.rows ?? []).filter((s) => {
+      // 过滤被删除的问卷
+      return usersIds?.includes(s.userId)
+    })
+    setSurveys(totalSurveys)
+    setTotal(totalSurveys.length)
     data?.data?.rows?.forEach(async (item) => {
       const link = (await getLinkBySurveyId(item.id)).data
       setSurveys((surveys) => {
@@ -129,7 +159,7 @@ export const AdminSurveyList = () => {
 
   return <div p='5 t4'>
     <div flex='' m='b5'>
-      <h2 text='xl' font='bold'>问卷管理</h2>
+      <h2 text='xl' font='bold'>问卷管理（{total}）</h2>
       <div flex='1'></div>
       <SearchPanel tip={'请输入问卷名搜索'} />
     </div>

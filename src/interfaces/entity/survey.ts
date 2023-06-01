@@ -4,6 +4,7 @@ import type { Prettify } from '~/utils'
 
 export type ListSurvey = Prettify<{
   id: number
+  userId: number
   title: string
   description: string
   isLike: number
