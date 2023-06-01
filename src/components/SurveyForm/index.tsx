@@ -58,7 +58,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey }) => {
     }).then((res) => {
       if (res.code === 200) {
         success('答卷提交成功！', () => {
-          surveyStore.makeSubmit()
+          surveyStore.makeSubmit(survey.id)
         })
       } else {
         error(res.msg)
@@ -98,6 +98,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({ survey }) => {
           questionId={q.id}
           options={q.options}
           vertical={true}
+          isModel={false}
         />
       })}
     </div>

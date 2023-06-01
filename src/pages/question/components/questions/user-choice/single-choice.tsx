@@ -43,7 +43,7 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({
   vertical = false,
   required = 1,
   isModel = false,
-  options = defaultOptions,
+  options,
   questionId,
   onUpdate,
   idx
@@ -57,9 +57,14 @@ export const SingleChoice: React.FC<SingleChoiceProps> = ({
 
   const { data: res, refresh } = useRequest(() => listOption({ questionId: questionId as number }))
 
-  const localOptions = !isModel
-    ? res?.data?.rows.length === 0 ? options : res?.data?.rows
-    : defaultOptions
+  // const localOptions = !isModel
+  //   ? res?.data?.rows.length === 0 ? options : res?.data?.rows
+  //   : defaultOptions
+  const localOptions = isModel
+    ? defaultOptions // 模板
+    : res?.data
+      ? res?.data?.rows // 编辑状态
+      : options // 提交状态
 
   useEffect(refresh, [curOptions])
 

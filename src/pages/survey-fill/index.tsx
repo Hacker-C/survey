@@ -9,12 +9,12 @@ import { surveyStore } from '~/store'
 import './index.css'
 
 export const SurveyFill = () => {
-  const { submitted } = useSnapshot(surveyStore)
+  const { submittedSurveysIds } = useSnapshot(surveyStore)
   const { id: link } = useParams()
   const { data: res } = useRequest(
     () => getSurveyByLink(link!)
   )
-  if (submitted) {
+  if (submittedSurveysIds.includes(res?.data?.id as number)) {
     document.title = '您的答卷已经提交，感谢您的参与！ | 在线问卷系统' as string
     return <>
       <div className='flex justify-center'>

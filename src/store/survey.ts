@@ -9,8 +9,8 @@ export const surveyStore = proxy<{
   updateCurSurvey: (val: CSurvey) => void
   modelVisible: boolean
   updateModelVisible: (val: boolean) => void
-  submitted: boolean
-  makeSubmit: () => void
+  submittedSurveysIds: number[]
+  makeSubmit: (id: number) => void
 }>({
       curSurvey: null,
       updateCurSurvey: (val: CSurvey) => {
@@ -22,10 +22,10 @@ export const surveyStore = proxy<{
         surveyStore.modelVisible = val
       },
 
-      submitted: localStorage.getItem('submitted') === 'true',
-      makeSubmit: () => {
-        surveyStore.submitted = true
-        localStorage.setItem('submitted', 'true')
+      submittedSurveysIds: JSON.parse(localStorage.getItem('submitted') ?? '[]'),
+      makeSubmit: (id: number) => {
+        surveyStore.submittedSurveysIds.push(id)
+        localStorage.setItem('submitted', JSON.stringify(surveyStore.submittedSurveysIds))
       }
     })
 
